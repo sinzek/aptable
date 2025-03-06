@@ -27,7 +27,7 @@ const Carousel = () => {
                             index === currentIndex ? 'translate-x-0' : 'translate-x-full'
                         }`}
                     >
-                        <Card content={card.content} />
+                        <Card content={card.content} title="example" imageUrl="com.com"/>
                     </div>
                 ))}
             </div>

@@ -117,3 +117,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .shine-transition {
+    transition: background-position 3s ease-in-out; /* Transition for background-position */
+  }
+}

@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
+import GetStartedButton from "@/components/ui/getStartedButton";
 
 export default function Home() {
   return (
-    <div className="font-['--font-aleo-mono']">
-      <Button variant="default" size="lg">
-        This is some text
-      </Button>
+    <div className="mt-4 ml-4">
+      <GetStartedButton />
     </div>
   );
 }

@@ -35,23 +35,23 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, // extends standard <button> attributes (onClick, disabled, etc)
+  VariantProps<typeof buttonVariants> { // allows variant and size props based on cva definitions (utility for defining reusable class variants)
+  asChild?: boolean // if true, a button will wrap around another component (you can render buttons as links, spans, etc)
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>( // forwardRef -> enables passing a ref to the button (useful for focusing, animations, etc)
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : "button" // if asChild is true, the button inherits another component, otherwise it renders as a normal button
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }))} // cn merges class names dynamically
         ref={ref}
         {...props}
       />
     )
   }
 )
-Button.displayName = "Button"
+Button.displayName = "Button" // helps with debugging in react devtools
 
 export { Button, buttonVariants }

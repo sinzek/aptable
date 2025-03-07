@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { Sora, Aleo } from "next/font/google";
 import "./globals.css";
 
-const soraSans = Sora({
+const soraSans = Sora({ // headings, logo, titles, buttons
   variable: "--font-sora-sans",
   subsets: ["latin"],
 })
 
-const aleoMono = Aleo({
+const aleoMono = Aleo({ // body text, supporting text, info text, etc
   variable: "--font-aleo-mono",
   subsets: ["latin"]
 })

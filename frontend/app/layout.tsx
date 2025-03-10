@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Aleo } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/ui/navbar";
 
 const soraSans = Sora({ // headings, logo, titles, buttons
   variable: "--font-sora-sans",
@@ -25,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${soraSans.variable} ${aleoMono.variable} antialiased`}
-      >
+        className={`${soraSans.variable} ${aleoMono.variable} antialiased bg-gray-500`}>
+        <Navbar />
         {children}
       </body>
     </html>

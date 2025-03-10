@@ -109,17 +109,14 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 @layer utilities {
   .shine-transition {
     transition: background-position 3s ease-in-out; /* Transition for background-position */
+  }
+}
+
+@layer components {
+  .ui-shadow {
+    box-shadow: #00000080 0px 4px 11.5px 4px;
   }
 }

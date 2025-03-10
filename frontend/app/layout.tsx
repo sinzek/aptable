@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sora, Aleo } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/navbar";
+import BackgroundManager from "@/components/backgroundManager";
 
 const soraSans = Sora({ // headings, logo, titles, buttons
   variable: "--font-sora-sans",
@@ -23,12 +24,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  
+
   return (
     <html lang="en">
       <body
-        className={`${soraSans.variable} ${aleoMono.variable} antialiased bg-gray-500`}>
-        <Navbar />
-        {children}
+        className={`${soraSans.variable} ${aleoMono.variable} antialiased bg-darkpurple-500`}>
+        <BackgroundManager>
+          <Navbar />
+          {children}
+        </BackgroundManager>
       </body>
     </html>
   );

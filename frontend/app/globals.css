@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   /* poopy doody butt */
 }
@@ -117,10 +121,26 @@
 
 @layer components {
   .ui-shadow {
-    box-shadow: #00000080 0px 4px 11.5px 4px;
+    box-shadow: #00000080 0px 4px 8px 0px;
   }
   .button-shadow {
     box-shadow: #00000080 0px 4px 0px 0px;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    } /* Moves up */
+    100% {
+      transform: translateY(0);
+    } /* Back to start */
+  }
+
+  .floating {
+    animation: float 3s ease-in-out infinite;
   }
 }
 

@@ -19,9 +19,9 @@ export default function BackgroundManager({ children }: BackgroundManagerProps) 
                 return 'bg-gradient-to-r from-darkpurple-500 to-purple-500';
             case '/login':
                 return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';
-            case '/our-story':
+            case '/about/our-story':
                 return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';
-            case '/our-mission':
+            case '/about/mission':
                 return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';
             case '/pricing':
                 return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';

@@ -36,12 +36,16 @@ const Navbar = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56" onCloseAutoFocus={(event) => event.preventDefault()}>
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                Our Story
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                Mission
-                            </DropdownMenuItem>
+                            <Link href="/about/our-story">
+                                <DropdownMenuItem>
+                                    Our Story
+                                </DropdownMenuItem>
+                            </Link>
+                            <Link href="/about/mission">
+                                <DropdownMenuItem>
+                                    Mission
+                                </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
                                 Wiki

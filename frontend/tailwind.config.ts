@@ -9,9 +9,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-				sora: ['var(--font-sora-sans)', 'sans-serif'],
-				aleo: ['var(--font-aleo-mono)', 'monospace']
-			},
+        sora: ['var(--font-sora-sans)', 'sans-serif'],
+        aleo: ['var(--font-aleo-mono)', 'monospace']
+      },
       colors: { // 500 is the default for each color, as shown in our color palette
         darkpurple: {
           100: "#d4d1d6",
@@ -106,5 +106,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 } satisfies Config;

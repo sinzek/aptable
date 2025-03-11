@@ -119,4 +119,44 @@
   .ui-shadow {
     box-shadow: #00000080 0px 4px 11.5px 4px;
   }
+  .button-shadow {
+    box-shadow: #00000080 0px 4px 0px 0px;
+  }
+}
+
+/* Scrollbar for Webkit Browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px; /* Thin scrollbar */
+  height: 8px; /* Horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #111; /* Dark track */
+  border-radius: 10px; /* Rounded edges */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444; /* Medium-dark scrollbar */
+  border-radius: 10px; /* Rounded edges */
+  border: 2px solid #111; /* Creates spacing effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666; /* Lighter on hover */
+}
+
+/* Auto-hide scrollbar when not scrolling */
+::-webkit-scrollbar-thumb {
+  visibility: hidden;
+  transition: visibility 0.3s ease-in-out;
+}
+
+:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
+
+/* Scrollbar for Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #444 #111;
 }

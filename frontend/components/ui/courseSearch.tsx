@@ -50,16 +50,16 @@ const SearchModal = () => {
                     onClick={closeModal}
                 >
                     <motion.div
-                        className="bg-purple-500/15 py-12 px-8 w-auto rounded-[50px] ui-shadow flex flex-col items-center gap-6 justify-center backdrop-blur-[10px]"
+                        className="bg-purple-500/10 py-6 md:py-12 px-8 w-auto rounded-[50px] ui-shadow flex flex-col items-center gap-6 justify-center backdrop-blur-[10px]"
                         initial={{ opacity: 0, y: 150 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 150 }}
                         transition={{ duration: 0.3, delay: 0.2, ease: "easeInOut" }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <h3 className="text-2xl lg:text-4xl text-center text-balance text-white font-sora font-bold">What would you like to learn?</h3>
+                        <h3 className="text-2xl lg:text-3xl text-center text-balance text-white font-sora font-bold">What would you like to learn?</h3>
                         <SearchBar />
-                        <Button variant="default" size="lg" className="opacity-50 hover:opacity-80" onClick={closeModal}>Close</Button>
+                        <Button variant="default" size="lg" className="mt-2 opacity-50 hover:opacity-80" onClick={closeModal}>Close</Button>
                     </motion.div>
                 </motion.div>
             )}

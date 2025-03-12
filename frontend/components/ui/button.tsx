@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-t from-teal-500 to-white text-darkpurple-500 shadow hover:opacity-75",
+          "border border-2 border-purple-300 text-white shadow hover:bg-white/25",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background shadow-sm hover: hover:text-accent-foreground",
         getstarted:
           "bg-gradient-to-t from-teal-500 to-white text-darkpurple-500 shadow before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:200%_200%] before:bg-[position:200%_0] before:bg-no-repeat before:transition-all before:duration-500 before:ease-in-out hover:before:bg-[position:-100%_0]",
         ghost: "text-white hover:bg-white/25",
@@ -23,7 +23,7 @@ const buttonVariants = cva(
       size: {
         default: "lg:h-10 h-8 rounded-full lg:px-5 px-3 font-semibold lg:text-xl text-base",
         sm: "h-8 rounded-full px-3 text-xs font-semibold",
-        lg: "h-10 rounded-full px-10 font-extrabold text-xl",
+        lg: "lg:h-10 h-8 rounded-full lg:px-10 px-5 font-extrabold lg:text-xl text-base",
         icon: "h-9 w-9",
       },
     },

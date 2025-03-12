@@ -3,6 +3,7 @@ import { Sora, Aleo } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/navbar";
 import BackgroundManager from "@/components/backgroundManager";
+import { AnimatePresence, motion } from "motion/react";
 
 const soraSans = Sora({ // headings, logo, titles, buttons
   variable: "--font-sora-sans",
@@ -25,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  
+
 
   return (
     <html lang="en">

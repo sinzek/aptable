@@ -25,7 +25,7 @@ export const FadeOverlay = () => {
         <motion.div
             initial={{ opacity: 0 }}
             animate={controls}
-            className="fixed inset-0 bg-darkpurple-800 z-[51] pointer-events-none"
+            className="fixed inset-0 bg-darkpurple-600 z-[51] pointer-events-none"
         />
     )
 }

@@ -50,7 +50,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-6 max-w-lg">
               <h2 className="text-xl lg:text-2xl text-balance font-aleo font-extrabold text-white">
-                A game-ified online course platform that's effective and fun.
+                A game-ified online course platform that&apos;s effective and fun.
               </h2>
               <h3 className="text-base md:text-lg lg:text-xl font-aleo font-semibold text-purple-100">
                 Aptable is a revolutionary learning platform that makes mastering new skills as engaging as your favorite game. With interactive lessons, a tycoon-style progression system, and collectible rewards, Aptable turns studying into an addictive experience.

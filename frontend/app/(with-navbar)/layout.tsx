@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Sora, Aleo } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/ui/navbar";
-import BackgroundManager from "@/components/backgroundManager";
+import BackgroundManager from "@/components/context/backgroundManager";
 
 const soraSans = Sora({ // headings, logo, titles, buttons
   variable: "--font-sora-sans",

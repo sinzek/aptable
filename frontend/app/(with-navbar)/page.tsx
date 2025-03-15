@@ -1,11 +1,14 @@
 import Starfield from "@/components/starfield";
-import GetStartedButton from "@/components/ui/getStartedButton";
+import { GetStartedButton } from "@/components/ui/getStartedButton";
+import { PinglePic } from "@/components/ui/pinglePic";
 import Image from "next/image";
 import { SearchButton, SearchModal } from "@/components/ui/courseSearch";
+import { FadeOverlay } from "@/components/fadeOverlay";
 
 export default function Home() {
   return (
-    <div className="h-full">
+    <div className="h-screen">
+      <FadeOverlay />
       <SearchModal />
       {/* DESKTOP / TABLET */}
       <div className="invisible md:visible h-1/2 absolute top-0 left-0 right-0 z-0" style={{
@@ -61,13 +64,7 @@ export default function Home() {
 
           {/* Image Content */}
           <div className="relative flex justify-center items-center">
-            <Image
-              src="/pingle_float_2x.webp"
-              alt="A floating Pingle"
-              width="619"
-              height="453"
-              className="relative z-10 lg:mb-10 w-[60%] md:w-[80%] lg:w-[90%] floating"
-            />
+            <PinglePic />
             <Image
               src="/ribbons_2x.webp"
               alt="Ribbons underneath Pingle"

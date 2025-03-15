@@ -2,7 +2,7 @@
 
 import { Button } from "./button";
 import Image from "next/image";
-import GetStartedButton from "./getStartedButton";
+import { GetStartedButton } from "./getStartedButton";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./dropdownMenu";

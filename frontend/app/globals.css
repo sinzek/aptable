@@ -10,6 +10,16 @@ html {
   /* poopy doody butt */
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  background-color: transparent !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  box-shadow: 0 0 0px 1000px transparent inset;
+
+  transition: background-color 500s ease-in-out 0s;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -116,6 +126,22 @@ html {
 @layer utilities {
   .shine-transition {
     transition: background-position 3s ease-in-out; /* Transition for background-position */
+  }
+
+  .eye-fade:hover {
+    @apply stroke-white/75 transition-all duration-150 ease-in-out;
+    animation: fadeIn 0.15s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0.5;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
 

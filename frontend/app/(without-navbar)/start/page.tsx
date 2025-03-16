@@ -3,21 +3,25 @@
 import { Button } from "@/components/ui/button";
 import { useState, ChangeEvent } from "react";
 import { motion, useAnimation, AnimatePresence } from "motion/react";
+import { EyeClosed, EyeIcon, LockIcon, MailIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
+import PricingCards from "@/components/ui/pricingCards";
 
 // Define types for form data and errors
 interface FormData {
   email: string;
   password: string;
+  confirm: string;
   username: string;
 }
 
 interface FormErrors {
   email: string;
   password: string;
+  confirm: string;
   username: string;
 }
 
-// Define prop types for each component
+// prop types for each component
 interface SignupStep1Props {
   formData: FormData;
   errors: FormErrors;
@@ -34,15 +38,17 @@ interface SignupSuccessProps {
 }
 
 export default function Start() {
-  const [stepNum, setStepNum] = useState<number>(0);
-  const [formData, setFormData] = useState<FormData>({
+  const [stepNum, setStepNum] = useState(0);
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
+    confirm: "",
     username: "",
   });
-  const [errors, setErrors] = useState<FormErrors>({
+  const [errors, setErrors] = useState({
     email: "",
     password: "",
+    confirm: "",
     username: "",
   });
 
@@ -54,7 +60,7 @@ export default function Start() {
       ...formData,
       [name]: value,
     });
-    
+
     // clear error when typing
     if (errors[name as keyof FormErrors]) {
       setErrors({
@@ -70,8 +76,12 @@ export default function Start() {
   };
 
   const validatePassword = (password: string): boolean => {
-    return password.length >= 8;
+    return password.length >= 8 && password.length <= 64;
   };
+
+  const validateConfirm = (confirm: string): boolean => {
+    return confirm === formData.password;
+  }
 
   const validateUsername = (username: string): boolean => {
     return username.length >= 3;
@@ -80,21 +90,25 @@ export default function Start() {
   const handleNextStep = (): void => {
     if (stepNum === 0) {
       // validate email and password
-      const newErrors = {email: "", password: ""};
-      
+      const newErrors = { email: "", password: "", confirm: "" };
+
       if (!validateEmail(formData.email)) {
         newErrors.email = "Please enter a valid email";
       }
-      
+
       if (!validatePassword(formData.password)) {
         newErrors.password = "Password must be at least 8 characters";
       }
-      
+
+      if (!validateConfirm(formData.confirm)) {
+        newErrors.confirm = "Passwords must match";
+      }
+
       if (newErrors.email || newErrors.password) {
         setErrors({ ...errors, ...newErrors });
         return;
       }
-      
+
       setStepNum(1);
     } else if (stepNum === 1) {
       // validate username
@@ -105,8 +119,9 @@ export default function Start() {
         });
         return;
       }
-      
+
       handleCompleteSignup();
+      console.log("Success");
     }
   };
 
@@ -115,13 +130,17 @@ export default function Start() {
       opacity: [0, 0, 0.3, 0.7, 1],
       transition: { duration: 0.5, ease: "easeInOut" }
     });
-    
+
     // here is where form data will be submitted
     console.log("Form submitted:", formData);
-    
+
     // move to next step, will be pricing options
     setTimeout(() => {
       setStepNum(2);
+      controls.start({
+        opacity: [1, 1, 0.7, 0.3, 0],
+        transition: { duration: 0.5, ease: "easeInOut" }
+      });
     }, 500);
   };
 
@@ -139,7 +158,7 @@ export default function Start() {
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
           className="w-full max-w-md flex flex-col items-center justify-center"
         >
-          <div className="relative w-full flex flex-col items-center justify-start p-8 backdrop-blur-[21.40px] overflow-hidden">
+          <div className="relative w-full flex flex-col items-center justify-start p-8 overflow-visible">
             <AnimatePresence mode="wait">
               {stepNum === 0 && (
                 <SignupStep1
@@ -162,13 +181,13 @@ export default function Start() {
                 <SignupSuccess username={formData.username} />
               )}
             </AnimatePresence>
-            
+
             {/* Progress indicator */}
             {stepNum < 2 && (
-              <div className="flex gap-2 mt-6">
+              <div className="flex gap-2 mt-8">
                 <motion.div
                   className={`h-2 w-10 rounded-full ${stepNum === 0 ? "bg-white" : "bg-white/50"}`}
-                  animate={{ scale: stepNum === 0 ? [1, 1.1, 1] : 1 }}
+                  animate={{ scale: stepNum === 0 ? [1, 1.05, 1] : 1 }}
                   transition={{ repeat: stepNum === 0 ? Infinity : 0, repeatDelay: 1 }}
                 />
                 <motion.div
@@ -187,6 +206,14 @@ export default function Start() {
 
 // Step 1: Email and Password
 const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: SignupStep1Props) => {
+  const [emailFocus, setEmailFocus] = useState(true);
+  const [pwdFocus, setPwdFocus] = useState(false);
+  const [confirmFocus, setConfirmFocus] = useState(false);
+  const [eyeOpen, setEyeOpen] = useState(false);
+
+
+
+
   return (
     <motion.div
       key="step1"
@@ -196,48 +223,104 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="w-full"
     >
-      <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-4">
         <h2 className="text-2xl lg:text-3xl text-center font-sora font-extrabold text-white">
           Sign up
         </h2>
-        
+
         <div className="flex flex-col gap-2">
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            autoFocus
-            placeholder="Enter email"
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 py-6"
-          />
+          <div className="flex flex-row border border-white/25 bg-white/10 text-white text-lg font-aleo font-normal gap-2 h-12 rounded-full items-center focus-within:border-white transition-all duration-150 ease-in-out focus-within:shadow-white/10 focus-within:shadow-lg">
+            <MailIcon strokeWidth={1.5} className={`ml-4 transition-all duration-150 ease-in-out ${emailFocus ? "stroke-white/75" : "stroke-white/25"}`} />
+            <input
+              type="email"
+              name="email"
+              inputMode="email"
+              autoCapitalize="off"
+              aria-invalid={!!errors.email}
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+              autoFocus
+              autoComplete="email"
+              aria-describedby="email-error"
+              spellCheck="false"
+              onFocus={() => setEmailFocus(true)}
+              onBlur={() => setEmailFocus(false)}
+
+              placeholder="Enter your email"
+              className="peer w-full h-full bg-transparent outline-none border-none text-lg"
+            />
+          </div>
           {errors.email && (
-            <p className="text-sm text-red-200">{errors.email}</p>
+            <p className="text-sm text-center text-red-200 font-aleo">{errors.email}</p>
           )}
         </div>
-        
+
         <div className="flex flex-col gap-2">
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            placeholder="Enter password"
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 py-6"
-          />
+
+          <div className="flex flex-row border border-white/25 bg-white/10 text-white text-lg font-aleo font-normal gap-2 h-12 rounded-full items-center focus-within:border-white transition-all duration-150 ease-in-out focus-within:shadow-white/10 focus-within:shadow-lg">
+            <LockIcon strokeWidth={1.5} className={`ml-4 transition-all duration-150 ease-in-out ${pwdFocus ? "stroke-white" : "stroke-white/25"}`} />
+            <input
+              type={eyeOpen ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+              autoComplete="new-password"
+              aria-describedby="password-error"
+              spellCheck="false"
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+
+              placeholder="Enter your password"
+              className="w-full h-full bg-transparent outline-none border-none text-lg"
+            />
+
+            <button className="mr-4" onClick={() => setEyeOpen(!eyeOpen)}>
+              {eyeOpen ? <EyeIcon strokeWidth={1.5} className="eye-fade" /> : <EyeClosed strokeWidth={1.5} className="eye-fade" />}
+            </button>
+
+          </div>
           {errors.password && (
-            <p className="text-sm text-red-200">{errors.password}</p>
+            <p className="text-sm text-center text-red-200 font-aleo">{errors.password}</p>
           )}
         </div>
-        
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={handleNextStep}
-          className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
-        >
-          <span className="text-white">Next</span>
-        </Button>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row border border-white/25 bg-white/10 text-white text-lg font-aleo font-normal gap-2 h-12 rounded-full items-center focus-within:border-white transition-all duration-150 ease-in-out focus-within:shadow-white/10 focus-within:shadow-lg">
+            <ShieldCheckIcon strokeWidth={1.5} className={`ml-4 transition-all duration-150 ease-in-out ${confirmFocus ? "stroke-white" : "stroke-white/25"}`} />
+            <input
+              type={eyeOpen ? "text" : "password"}
+              name="confirm"
+              value={formData.confirm}
+              onChange={handleInputChange}
+              required
+              autoComplete="new-password"
+              aria-describedby="confirm-error"
+              spellCheck="false"
+              onFocus={() => setConfirmFocus(true)}
+              onBlur={() => setConfirmFocus(false)}
+
+              placeholder="Confirm your password"
+              className="w-full h-full bg-transparent outline-none border-none text-lg"
+            />
+          </div>
+          {errors.confirm && (
+            <p className="text-sm text-center text-red-200 font-aleo">{errors.confirm}</p>
+          )}
+        </div>
+
+
+
+        <div className="flex flex-col items-center">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleNextStep}
+            className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
+          >
+            <span className="text-white">Next</span>
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
@@ -245,6 +328,8 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
 
 // Step 2: Username
 const SignupStep2 = ({ formData, errors, handleInputChange, handleNextStep, handleBack }: SignupStep2Props) => {
+  const [userFocus, setUserFocus] = useState(true);
+
   return (
     <motion.div
       key="step2"
@@ -258,39 +343,55 @@ const SignupStep2 = ({ formData, errors, handleInputChange, handleNextStep, hand
         <h2 className="text-2xl lg:text-3xl text-center font-sora font-extrabold text-white">
           Choose a username
         </h2>
-        
+
         <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            autoFocus
-            placeholder="Enter username"
-            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 py-6"
-          />
+          <div className="flex flex-row border border-white/25 bg-white/10 text-white text-lg font-aleo font-normal gap-2 h-12 rounded-full items-center focus-within:border-white transition-all duration-150 ease-in-out focus-within:shadow-white/10 focus-within:shadow-lg">
+            <UserIcon strokeWidth={2} className={`ml-4 transition-all duration-150 ease-in-out ${userFocus ? "stroke-white/75" : "stroke-white/25"}`} />
+            <input
+              type="text"
+              name="username"
+              inputMode="text"
+              autoCapitalize="off"
+              aria-invalid={!!errors.username}
+              value={formData.username}
+              onChange={handleInputChange}
+              required
+              autoFocus
+              aria-describedby="username-error"
+              spellCheck="false"
+              onFocus={() => setUserFocus(true)}
+              onBlur={() => setUserFocus(false)}
+
+              placeholder="Enter a cool username"
+              className="peer w-full h-full bg-transparent outline-none border-none text-lg"
+            />
+          </div>
           {errors.username && (
-            <p className="text-sm text-red-200">{errors.username}</p>
+            <p className="text-sm text-center text-red-200 font-aleo">{errors.username}</p>
           )}
         </div>
-        
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={handleNextStep}
-          className="bg-white/20 hover:bg-white/30 border-white/30"
-        >
-          <span className="text-white">Sign Up</span>
-        </Button>
-        
-        <Button
-          variant="ghost"
-          size="lg"
-          onClick={handleBack}
-          className="hover:bg-white/10"
-        >
-          <span className="text-white/70">Back</span>
-        </Button>
+
+        <div className="flex flex-col items-center">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleNextStep}
+            className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
+          >
+            <span className="text-white">Next</span>
+          </Button>
+        </div>
+
+        <div className="flex flex-col items-center">
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={handleBack}
+            className="hover:bg-white/10"
+          >
+            <span className="text-white/70">Back</span>
+          </Button>
+        </div>
       </div>
     </motion.div>
   );
@@ -304,35 +405,32 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="w-full py-8"
+      className="w-full md:w-[200%] py-8"
     >
       <div className="flex flex-col gap-6 items-center">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.3, type: "spring" }}
-          className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center"
+          className="p-1 lg:p-2 bg-gradient-to-t from-teal-500 to-white rounded-full flex items-center justify-center"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
           </svg>
         </motion.div>
-        
-        <h2 className="text-2xl lg:text-3xl text-center font-sora font-extrabold text-white">
+
+        <h2 className="text-2xl md:text-3xl text-center font-sora font-extrabold text-white">
           Welcome, {username}!
         </h2>
-        
-        <p className="text-white/80 text-center">
-          Your account has been created successfully.
+        <p className="text-white/80 text-center text-base md:text-lg font-aleo lg:mb-8 mb-2">
+          Your account has been created successfully!!! yippeee!!<br />Choose an option below to get started.
         </p>
-        
-        <Button
-          variant="outline"
-          size="lg"
-          className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
-        >
-          <span className="text-white">Get Started</span>
-        </Button>
+        <PricingCards />
+        <div className="flex flex-col">
+          <Button variant="ghost" size="sm" className="text-white/50 hover:bg-white/10">
+            I&apos;ll just look around for now
+          </Button>
+        </div>
       </div>
     </motion.div>
   );

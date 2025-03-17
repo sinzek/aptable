@@ -1,10 +1,11 @@
+"use client";
+
 import { FadeOverlay } from "@/components/fadeOverlay";
 
-export default function Pricing() {
+export default function Login() {
     return(
-        <div className="h-screen text-3xl">
+        <div className="h-screen">
             <FadeOverlay />
-            THIS IS THE PRICING PAGE!
         </div>
     );
 }

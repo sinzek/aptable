@@ -276,7 +276,7 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
               className="w-full h-full bg-transparent outline-none border-none text-lg"
             />
 
-            <button className="mr-4" onClick={() => setEyeOpen(!eyeOpen)}>
+            <button className="mr-4" onClick={() => setEyeOpen(!eyeOpen)} tabIndex={-1}>
               {eyeOpen ? <EyeIcon strokeWidth={1.5} className="eye-fade" /> : <EyeClosed strokeWidth={1.5} className="eye-fade" />}
             </button>
 
@@ -326,7 +326,7 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
   );
 };
 
-// Step 2: Username
+// step 2: username
 const SignupStep2 = ({ formData, errors, handleInputChange, handleNextStep, handleBack }: SignupStep2Props) => {
   const [userFocus, setUserFocus] = useState(true);
 
@@ -412,7 +412,7 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.3, type: "spring" }}
-          className="p-1 lg:p-2 bg-gradient-to-t from-teal-500 to-white rounded-full flex items-center justify-center"
+          className="p-1 lg:p-2 bg-gradient-to-t from-teal-500 to-teal-100 rounded-full flex items-center justify-center"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

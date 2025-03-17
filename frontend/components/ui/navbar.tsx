@@ -22,9 +22,11 @@ const Navbar = () => {
                 <Button variant="ghost" size="default">
                     <span>Courses</span>
                 </Button>
-                <Button variant="ghost" size="default">
-                    <span>Pricing</span>
-                </Button>
+                <Link href="/pricing">
+                    <Button variant="ghost" size="default">
+                        <span>Pricing</span>
+                    </Button>
+                </Link>
                 <DropdownMenu onOpenChange={(isOpen) => {
                     setAboutToggled(isOpen);
                 }}>
@@ -53,10 +55,11 @@ const Navbar = () => {
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
-
-                <Button variant="ghost" size="default" className="mr-2">
-                    <span>Log in</span>
-                </Button>
+                <Link href="/login">
+                    <Button variant="ghost" size="default" className="mr-2">
+                        <span>Log in</span>
+                    </Button>
+                </Link>
                 <GetStartedButton />
             </div>
 

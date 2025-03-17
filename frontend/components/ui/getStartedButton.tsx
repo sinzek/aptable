@@ -14,7 +14,7 @@ export const GetStartedButton = () => {
 
         setTimeout(() => {
             router.push("/start");
-        }, 1200);
+        }, 500);
     }, [router]);
 
     return (

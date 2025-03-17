@@ -10,7 +10,7 @@ export const FadeOverlay = () => {
         const handleTriggerAnimation = () => {
             controls.start({
                 opacity: [0, 0, 0.3, 0.7, 1],
-                transition: { duration: 0.5, ease: "easeInOut", delay: 0.5 }
+                transition: { duration: 0.5, ease: "easeInOut" }
             });
         };
 

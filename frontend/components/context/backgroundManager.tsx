@@ -24,7 +24,7 @@ export default function BackgroundManager({ children }: BackgroundManagerProps) 
             case '/about/mission':
                 return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';
             case '/pricing':
-                return 'bg-gradient-to-b from-darkpurple-500 to-purple-500';
+                return 'bg-gradient-to-b from-purple-500 to-darkpurple-500 to-80%';
             default:
                 return 'bg-darkpurple-500';
         }

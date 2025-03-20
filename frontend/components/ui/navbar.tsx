@@ -15,46 +15,51 @@ const Navbar = () => {
         <div className="sticky top-0 left-0 right-0 h-[4.5rem] bg-darkpurple-500/50 flex flex-row items-center justify-between px-40 ui-shadow backdrop-blur-[10px] z-50">
             <div className="flex flex-row items-center justify-center">
                 <Link href="/">
-                    <Image src="Aptable-Logo.svg" alt="Aptable logo" width="150" height="75" className="transition-all duration-200 hover:filter hover:drop-shadow-[0px_3px_0px_rgba(15,11,20,1)] hover:translate-y-[-1.5px] active:drop-shadow-none active:translate-y-0" />
+                    <Image src="Aptable-Logo.svg" alt="Aptable logo" width="150" height="75" className="transition-all duration-100 hover:filter hover:drop-shadow-[0px_3px_0px_rgba(15,11,20,1)] hover:translate-y-[-1.5px] active:drop-shadow-none active:translate-y-0" />
                 </Link>
             </div>
             <div className="flex flex-row items-center justify-center gap-4">
                 <Button variant="ghost" size="default">
                     <span>Courses</span>
                 </Button>
-                <Link href="/pricing">
-                    <Button variant="ghost" size="default">
-                        <span>Pricing</span>
-                    </Button>
-                </Link>
-                <DropdownMenu onOpenChange={(isOpen) => {
-                    setAboutToggled(isOpen);
-                }}>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="default">
-                            <span>About us</span>
-                            <ChevronDown strokeWidth={3} className={`transition-all duration-200 ease-in-out ${aboutToggled ? "rotate-180" : ""}`} />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" onCloseAutoFocus={(event) => event.preventDefault()}>
-                        <DropdownMenuGroup>
-                            <Link href="/about/our-story">
+                <div
+                    onMouseEnter={() => setAboutToggled(true)}
+                    onMouseLeave={() => setAboutToggled(false)}
+                >
+                    <DropdownMenu onOpenChange={setAboutToggled}
+                        modal={false}
+                        open={aboutToggled}
+                    >
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="default" className={`${aboutToggled ? "bg-white/25" : ""}`}>
+                                <span>About us</span>
+                                <ChevronDown strokeWidth={3} className={`transition-all duration-200 ease-in-out ${aboutToggled ? "rotate-180" : ""}`} />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent 
+                            className="w-56" 
+                            onCloseAutoFocus={(event) => event.preventDefault()}
+                            sideOffset={0}
+                        >
+                            <DropdownMenuGroup>
+                                <Link href="/about/our-story">
+                                    <DropdownMenuItem>
+                                        Our Story
+                                    </DropdownMenuItem>
+                                </Link>
+                                <Link href="/about/mission">
+                                    <DropdownMenuItem>
+                                        Mission
+                                    </DropdownMenuItem>
+                                </Link>
+                                <DropdownMenuSeparator />
                                 <DropdownMenuItem>
-                                    Our Story
+                                    Wiki
                                 </DropdownMenuItem>
-                            </Link>
-                            <Link href="/about/mission">
-                                <DropdownMenuItem>
-                                    Mission
-                                </DropdownMenuItem>
-                            </Link>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                Wiki
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
                 <Link href="/login">
                     <Button variant="ghost" size="default" className="mr-2">
                         <span>Log in</span>

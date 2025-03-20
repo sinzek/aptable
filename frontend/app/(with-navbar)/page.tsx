@@ -53,7 +53,7 @@ export default function Home() {
                 A game-ified online course platform that&apos;s effective and fun.
               </h2>
               <h3 className="text-base md:text-lg lg:text-xl font-aleo font-semibold text-purple-100">
-                Aptable is a revolutionary learning platform that makes mastering new skills as engaging as your favorite game. With interactive lessons, a tycoon-style progression system, and collectible rewards, Aptable turns studying into an addictive experience.
+                Interactive lessons, a tycoon-style progression system, and collectible rewards— Aptable turns studying into an addictive experience.
               </h3>
             </div>
             <div className="flex flex-row gap-4 justify-center md:justify-start">

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { motion, useAnimation, AnimatePresence } from "motion/react";
 import { EyeClosed, EyeIcon, LockIcon, MailIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
 import PricingCards from "@/components/ui/pricingCards";
@@ -110,6 +110,7 @@ export default function Start() {
       }
 
       setStepNum(1);
+      window.location.hash = "1";
     } else if (stepNum === 1) {
       // validate username
       if (!validateUsername(formData.username)) {
@@ -122,6 +123,7 @@ export default function Start() {
 
       handleCompleteSignup();
       console.log("Success");
+      window.location.hash = "2";
     }
   };
 
@@ -143,6 +145,10 @@ export default function Start() {
       });
     }, 500);
   };
+
+  useEffect(() => {
+    window.location.hash = "0";
+  }, [])
 
   return (
     <div className="h-screen bg-darkpurple-600">
@@ -212,15 +218,13 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
   const [eyeOpen, setEyeOpen] = useState(false);
 
 
-
-
   return (
     <motion.div
       key="step1"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={{ duration: 0.3, ease:"circInOut" }}
       className="w-full"
     >
       <div className="flex flex-col gap-4">

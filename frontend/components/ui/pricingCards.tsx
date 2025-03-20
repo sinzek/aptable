@@ -1,11 +1,11 @@
-import { FlameIcon, GraduationCap, LaughIcon } from "lucide-react";
+import { ArrowRight, FlameIcon, GraduationCap, LaughIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { Button } from "./button";
 
 const PricingCards = () => {
     return (
         <div className="flex flex-col gap-3 w-full">
-            <motion.div className="relative overflow-hidden flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-orange-500/50 via-yellow-500/40 to-orange-500/30 border border-white/25 hover:border-white/50 transition-all duration-150 ease-in-out items-center justify-between"
+            <motion.div className="relative overflow-hidden flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-orange-500/50 via-yellow-500/40 to-orange-500/30 border-4 border-white/25 hover:border-white/50 transition-all duration-150 ease-in-out items-center justify-between"
                 initial={{ opacity: 0, boxShadow: "0px 0px 0px #000" }}
                 animate={{ opacity: 1, boxShadow: "0px 0px 7px #FFFFFF95" }}
                 transition={{ delay: 0.5, type: "spring" }}
@@ -14,18 +14,28 @@ const PricingCards = () => {
                 <div className="flex flex-row gap-3 items-center">
                     <GraduationCap strokeWidth={2} className="md:w-16 md:h-16 w-12 h-12 p-1 md:p-2 bg-yellow-500/25 rounded-full stroke-yellow-200" />
                     <div className="flex flex-col items-start justify-center">
-                        <h2 className="text-md md:text-2xl text-white font-sora font-extrabold ">
-                            Student Plan
+                        <h2 className="text-sm md:text-xl font-sora font-extrabold text-white">
+                         ✨Student Plan✨
                         </h2>
-                        <h2 className="text-sm md:text-lg text-white/75 font-sora font-bold">
-                            $11.99/mo
-                        </h2>
+                        <div className="flex flex-row items-center justify-center gap-1">
+                            <p className="text-xs md:text-sm text-white/75 font-semibold line-through">
+                                $24.99
+                            </p>
+                            <h2 className="text-md md:text-3xl font-sora font-extrabold bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-teal-500 bg-clip-text text-transparent">
+                                $11.99
+                            </h2>
+                            <p className="text-xs md:text-sm text-white/75 font-semibold">
+                                /month
+                            </p>
+                        </div>
+                        
                     </div>
 
                 </div>
                 <div className="flex flex-col">
                     <Button variant="pricing" size="lg">
-                        <span>Let&apos;s do it</span>
+                        <span>Checkout</span>
+                        <ArrowRight strokeWidth={3} stroke="black" />
                     </Button>
                 </div>
             </motion.div>
@@ -47,8 +57,9 @@ const PricingCards = () => {
 
                 </div>
                 <div className="flex flex-col">
-                    <Button variant="pricing" size="default" className="bg-gradient-to-t from-purple-500/50 to-purple-200">
-                        <span className="font-aleo lg:text-lg text-white">I hate learning</span>
+                    <Button variant="pricing" size="lg" className="bg-gradient-to-br from-purple-300 from-20% via-white via-50% to-red-300 to-80% opacity-85 hover:opacity-100">
+                        <span className="font-aleo lg:text-lg text-black">Checkout</span>
+                        <ArrowRight strokeWidth={3} stroke="black" />
                     </Button>
                 </div>
             </motion.div>
@@ -75,7 +86,12 @@ const PricingCards = () => {
                     </Button>
                 </div>
             </motion.div>
+
+            <div className="flex flex-row items-center justify-stretch gap-2">
+                    HELLO
+            </div>
         </div>
+        
     );
 };
 

@@ -411,7 +411,7 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="w-full md:w-[200%] py-8"
     >
-      <div className="flex flex-col gap-6 items-center">
+      <div className="flex flex-col gap-4 items-center">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -424,11 +424,14 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
         </motion.div>
 
         <h2 className="text-2xl md:text-3xl text-center font-sora font-extrabold text-white">
-          Welcome, {username}!
+          Welcome, <span className="text-teal-300">{username}!</span>
         </h2>
         <p className="text-white/80 text-center text-base md:text-lg font-aleo lg:mb-8 mb-2">
-          Your account has been created successfully!!! yippeee!!<br />Choose an option below to get started.
+          Your account has been created successfully!
         </p>
+        <h2 className="text-2xl md:text-3xl text-center font-sora font-extrabold text-white">
+          Choose your adventure
+        </h2>
         <PricingCards />
         <div className="flex flex-col">
           <Button variant="ghost" size="sm" className="text-white/50 hover:bg-white/10">

@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost: "text-white hover:bg-white/25",
         link: "text-primary underline-offset-4 hover:underline",
         pricing:
-          "bg-gradient-to-br from-yellow-500 from-20% via-white via-50% to-yellow-500 to-80% text-darkpurple-500 shadow before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:200%_200%] before:bg-[position:200%_0] before:bg-no-repeat before:transition-all before:duration-500 before:ease-in-out hover:before:bg-[position:-100%_0]",
+          "text-darkpurple-500 shadow before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.5)_50%,transparent_75%,transparent_100%)] before:bg-[length:200%_200%] before:bg-[position:200%_0] before:bg-no-repeat before:transition-all before:duration-500 before:ease-in-out hover:before:bg-[position:-100%_0]",
 
       },
       size: {

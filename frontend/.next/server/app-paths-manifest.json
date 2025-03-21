@@ -1,0 +1,8 @@
+{
+  "/(with-navbar)/page": "app/(with-navbar)/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/(without-navbar)/start/page": "app/(without-navbar)/start/page.js",
+  "/(with-navbar)/login/page": "app/(with-navbar)/login/page.js",
+  "/(with-navbar)/about/our-story/page": "app/(with-navbar)/about/our-story/page.js",
+  "/(with-navbar)/about/mission/page": "app/(with-navbar)/about/mission/page.js"
+}

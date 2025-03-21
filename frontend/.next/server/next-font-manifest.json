@@ -1,0 +1,27 @@
+{
+  "app": {
+    "[project]/app/(with-navbar)/page": [
+      "static/media/xMQbuFFYT72XzQUpDqW1KX4-s.p.ec9c25d0.woff2",
+      "static/media/c4mv1nF8G8_swA3J0R9rkoc-s.p.b44c64ad.woff2"
+    ],
+    "[project]/app/(without-navbar)/start/page": [
+      "static/media/xMQbuFFYT72XzQUpDqW1KX4-s.p.ec9c25d0.woff2",
+      "static/media/c4mv1nF8G8_swA3J0R9rkoc-s.p.b44c64ad.woff2"
+    ],
+    "[project]/app/(with-navbar)/login/page": [
+      "static/media/xMQbuFFYT72XzQUpDqW1KX4-s.p.ec9c25d0.woff2",
+      "static/media/c4mv1nF8G8_swA3J0R9rkoc-s.p.b44c64ad.woff2"
+    ],
+    "[project]/app/(with-navbar)/about/our-story/page": [
+      "static/media/xMQbuFFYT72XzQUpDqW1KX4-s.p.ec9c25d0.woff2",
+      "static/media/c4mv1nF8G8_swA3J0R9rkoc-s.p.b44c64ad.woff2"
+    ],
+    "[project]/app/(with-navbar)/about/mission/page": [
+      "static/media/xMQbuFFYT72XzQUpDqW1KX4-s.p.ec9c25d0.woff2",
+      "static/media/c4mv1nF8G8_swA3J0R9rkoc-s.p.b44c64ad.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

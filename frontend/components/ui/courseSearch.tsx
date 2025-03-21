@@ -58,7 +58,7 @@ const SearchModal = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3 className="text-2xl lg:text-3xl text-center text-balance text-white font-sora font-bold">What would you like to learn?</h3>
-                        <SearchBar />
+                        <SearchBar placeholder="Search" autoFocus />
                         <Button variant="default" size="lg" className="mt-2 opacity-50 hover:opacity-80" onClick={closeModal}>Close</Button>
                     </motion.div>
                 </motion.div>

@@ -5,7 +5,7 @@ import { Button } from "./button";
 const PricingCards = () => {
     return (
         <div className="flex flex-col gap-3 w-full">
-            <motion.div className="relative overflow-hidden flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-orange-500/50 via-yellow-500/40 to-orange-500/30 border-2 border-white/75 transition-all duration-150 ease-in-out items-center justify-between"
+            <motion.div className="relative overflow-hidden flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-orange-500/50 via-yellow-500/40 to-orange-500/30 border border-white/75 transition-all duration-150 ease-in-out items-center justify-between"
                 initial={{ opacity: 0, boxShadow: "0px 0px 0px #000" }}
                 animate={{ opacity: 1, boxShadow: "0px 0px 7px #FFFFFF95" }}
                 transition={{ delay: 0.5, type: "spring" }}
@@ -15,7 +15,7 @@ const PricingCards = () => {
                     <GraduationCap strokeWidth={2} className="md:w-16 md:h-16 w-12 h-12 p-1 md:p-2 bg-yellow-500/25 rounded-full stroke-yellow-200" />
                     <div className="flex flex-col items-start justify-center">
                         <h2 className="text-md md:text-xl font-sora font-extrabold text-white">
-                         ✨Student Plan✨
+                            ✨Student Plan✨
                         </h2>
                         <div className="flex flex-row items-center justify-center gap-1">
                             <p className="text-xs md:text-sm text-white/75 font-semibold line-through">
@@ -28,7 +28,7 @@ const PricingCards = () => {
                                 /month
                             </p>
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -39,7 +39,7 @@ const PricingCards = () => {
                     </Button>
                 </div>
             </motion.div>
-            <motion.div className="flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-purple-400/25 via-maroon-400/25 to-purple-400/25 border-2 border-white/50 transition-all duration-150 ease-in-out items-center justify-between"
+            <motion.div className="flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-purple-400/25 via-maroon-400/25 to-purple-400/25 border border-white/50 transition-all duration-150 ease-in-out items-center justify-between"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, type: "spring" }}
@@ -71,7 +71,7 @@ const PricingCards = () => {
                     </Button>
                 </div>
             </motion.div>
-            <motion.div className="flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-gray-500/25 via-white/12 to-gray-500/15 border-2 border-white/25 transition-all duration-150 ease-in-out items-center justify-between pointer-events-none"
+            <motion.div className="flex flex-row px-4 md:px-8 py-3 md:py-6 rounded-3xl bg-gradient-to-br from-gray-500/25 via-white/12 to-gray-500/15 border border-white/25 transition-all duration-150 ease-in-out items-center justify-between pointer-events-none"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.5 }}
                 transition={{ delay: 0.6, type: "spring" }}
@@ -104,7 +104,7 @@ const PricingCards = () => {
                 </div>
             </motion.div>
         </div>
-        
+
     );
 };
 

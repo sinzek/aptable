@@ -5,6 +5,7 @@ import Image from "next/image";
 import { SearchButton, SearchModal } from "@/components/ui/courseSearch";
 import { FadeOverlay } from "@/components/fadeOverlay";
 
+
 export default function Home() {
   return (
     <div className="h-screen">

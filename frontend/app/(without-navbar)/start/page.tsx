@@ -5,6 +5,10 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { motion, useAnimation, AnimatePresence } from "motion/react";
 import { EyeClosed, EyeIcon, LockIcon, MailIcon, ShieldCheckIcon, UserIcon } from "lucide-react";
 import PricingCards from "@/components/ui/pricingCards";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "firebase/firestore";
+import { db, auth } from "@/utils/firebase";
+import { checkPrimeSync } from "crypto";
 
 // Define types for form data and errors
 interface FormData {
@@ -87,13 +91,46 @@ export default function Start() {
     return username.length >= 3;
   };
 
-  const handleNextStep = (): void => {
+  const checkUsernameAvailability = async (username: string) => {
+    try {
+      const response = await fetch(`/api/users/duplicate-username?username=${encodeURIComponent(username)}`);
+      const data = await response.json();
+      return data.exists; // Returns true if username exists/is taken
+    } catch (error) {
+      console.error("Error checking username", error);
+      return false; // Default to false on error
+    }
+  };
+
+  const checkEmailAvailability = async (email: string) => {
+    try {
+      const response = await fetch(`/api/users/duplicate-email?email=${encodeURIComponent(email)}`);
+
+      if (!response.ok) {
+        console.error("Error checking email: ", response.statusText);
+        return false;
+      }
+
+      const data = await response.json();
+      return data.exists; // Returns true if email exists/is taken
+    } catch (error) {
+      console.error("Error checking email", error);
+      return false; // Default to false on error
+    }
+  };
+
+  const handleNextStep = async (): Promise<void> => {
     if (stepNum === 0) {
       // validate email and password
       const newErrors = { email: "", password: "", confirm: "" };
 
-      if (!validateEmail(formData.email)) {
+      if (!validateEmail(formData.email)) { // Corrected: Check for NOT valid
         newErrors.email = "Please enter a valid email";
+      } else { // Only check for existence if format is valid
+        const emailExists = await checkEmailAvailability(formData.email);
+        if (emailExists) {
+          newErrors.email = "Email already exists! Select &quot;Forgot password&quot; if you need help resetting your password.";
+        }
       }
 
       if (!validatePassword(formData.password)) {
@@ -121,27 +158,61 @@ export default function Start() {
         return;
       }
 
-      handleCompleteSignup();
+      const usernameExists = await checkUsernameAvailability(formData.username);
+      if (usernameExists) {
+        setErrors({
+          ...errors,
+          username: "That username already exists ( ͡°👅 ͡°)",
+        });
+        return;
+      }
+
+      await handleCompleteSignup();
       console.log("Success");
       window.location.hash = "2";
     }
   };
 
-  const handleCompleteSignup = (): void => {
+
+
+  const handleCompleteSignup = async (): Promise<void> => {
     controls.start({
       opacity: [0, 0, 0.3, 0.7, 1],
-      transition: { duration: 0.5, ease: "easeInOut" }
+      transition: { duration: 0.5, ease: "easeInOut" },
     });
 
-    // here is where form data will be submitted
     console.log("Form submitted:", formData);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
 
-    // move to next step, will be pricing options
+      if (!user) throw new Error("User authentication failed");
+
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        username: formData.username,
+        role: "user",
+      });
+
+      console.log("User created successfully with username:", formData.username);
+    } catch (error: any) {
+      console.error("Error signing up:", error); // Log the full error object
+
+      if (error.code === "auth/email-already-in-use") {
+        setErrors({ ...errors, email: "This email address is already in use." });
+      } else if (error.code === "permission-denied") {
+        alert("Permission error: please check your Firestore rules");
+      } else {
+        // Handle other errors
+        alert("An error occurred during signup. Please try again.");
+      }
+    }
+
     setTimeout(() => {
       setStepNum(2);
       controls.start({
         opacity: [1, 1, 0.7, 0.3, 0],
-        transition: { duration: 0.5, ease: "easeInOut" }
+        transition: { duration: 0.5, ease: "easeInOut" },
       });
     }, 500);
   };
@@ -224,7 +295,7 @@ const SignupStep1 = ({ formData, errors, handleInputChange, handleNextStep }: Si
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.3, ease:"circInOut" }}
+      transition={{ duration: 0.3, ease: "circInOut" }}
       className="w-full"
     >
       <div className="flex flex-col gap-4">

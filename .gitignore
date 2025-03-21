@@ -16,7 +16,7 @@ backend/.yarn/*
 /coverage
 
 # next.js
-frontend/.next
+frontend/.next/
 /out/
 
 # production

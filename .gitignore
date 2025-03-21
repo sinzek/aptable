@@ -1,41 +1,42 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-/.pnp
+**/node_modules/        # Ignore node_modules in any subfolder (frontend, backend, etc.)
+.pnp
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+frontend/.pnp.*         # Ignore Yarn PnP files in the frontend
+backend/.pnp.*          # Ignore Yarn PnP files in the backend
+frontend/.yarn/*        # Ignore Yarn files in frontend
+backend/.yarn/*         # Ignore Yarn files in backend
+!.yarn/patches          # Do not ignore Yarn patches folder
+!.yarn/plugins          # Do not ignore Yarn plugins folder
+!.yarn/releases         # Do not ignore Yarn releases folder
+!.yarn/versions         # Do not ignore Yarn versions folder
 
 # testing
-/coverage
+/coverage                # Ignore test coverage reports
 
 # next.js
-/.next/
-/out/
+/.next/                  # Ignore Next.js build folder
+/out/                    # Ignore Next.js static export folder
 
 # production
-/build
+/build                   # Ignore production build folder (in case of custom builds)
 
 # misc
-.DS_Store
-*.pem
+.DS_Store                # Ignore macOS Finder system file
+*.pem                    # Ignore PEM certificate files
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+npm-debug.log*           # Ignore npm debug logs
+yarn-debug.log*          # Ignore Yarn debug logs
+yarn-error.log*          # Ignore Yarn error logs
+.pnpm-debug.log*         # Ignore pnpm debug logs
 
 # env files (can opt-in for committing if needed)
-.env*
+**/.env*                 # Ignore environment files in any folder (frontend/backend)
 
 # vercel
-.vercel
+.vercel                  # Ignore Vercel configuration folder
 
 # typescript
-*.tsbuildinfo
-next-env.d.ts
+*.tsbuildinfo            # Ignore TypeScript build info files
+next-env.d.ts            # Ignore Next.js type definitions

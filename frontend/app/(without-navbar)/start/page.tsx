@@ -223,6 +223,9 @@ export default function Start() {
 
   return (
     <div className="h-screen bg-darkpurple-600">
+      <div className="absolute top-[50%] w-full bg-red-500">
+
+      </div>
       <motion.div
         initial={{ opacity: 0 }}
         animate={controls}

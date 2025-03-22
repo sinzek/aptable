@@ -3,109 +3,106 @@
 @tailwind utilities;
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 :root {
-  /* poopy doody butt */
+    /* poopy doody butt */
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  background-color: transparent !important;
-  color: white !important;
-  -webkit-text-fill-color: white !important;
-  box-shadow: 0 0 0px 1000px transparent inset;
+    background-color: transparent !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    box-shadow: 0 0 0px 1000px transparent inset;
 
-  transition: background-color 500s ease-in-out 0s;
+    transition: background-color 500s ease-in-out 0s;
 }
 
 @layer base {
-  .bg-radial-pricing {
-    background-image: radial-gradient(circle, --tw-color-purple-500 30%, --tw-color-yellow-500 100%)
-  }
 }
 
 @layer utilities {
-  .shine-transition {
-    transition: background-position 3s ease-in-out; /* Transition for background-position */
-  }
-
-  .eye-fade:hover {
-    @apply stroke-white/75 transition-all duration-150 ease-in-out;
-    animation: fadeIn 0.15s ease-in-out forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0.5;
-      transform: scale(0.95);
+    .shine-transition {
+        transition: background-position 3s ease-in-out; /* Transition for background-position */
     }
-    to {
-      opacity: 1;
-      transform: scale(1);
+
+    .eye-fade:hover {
+        @apply stroke-white/75 transition-all duration-150 ease-in-out;
+        animation: fadeIn 0.15s ease-in-out forwards;
     }
-  }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 }
 
 @layer components {
-  .ui-shadow {
-    box-shadow: #00000080 0px 4px 8px 0px;
-  }
-  .button-shadow {
-    box-shadow: #00000080 0px 4px 0px 0px;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0);
+    .ui-shadow {
+        box-shadow: #00000080 0px 4px 8px 0px;
     }
-    50% {
-      transform: translateY(-10px);
-    } /* Moves up */
-    100% {
-      transform: translateY(0);
-    } /* Back to start */
-  }
+    .button-shadow {
+        box-shadow: #00000080 0px 4px 0px 0px;
+    }
 
-  .floating {
-    animation: float 3s ease-in-out infinite;
-  }
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        } /* Moves up */
+        100% {
+            transform: translateY(0);
+        } /* Back to start */
+    }
+
+    .floating {
+        animation: float 3s ease-in-out infinite;
+    }
 }
 
 /* Scrollbar for Webkit Browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: 8px; /* Thin scrollbar */
-  height: 8px; /* Horizontal scrollbar */
+    width: 8px; /* Thin scrollbar */
+    height: 8px; /* Horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: #111; /* Dark track */
-  border-radius: 10px; /* Rounded edges */
+    background: #111; /* Dark track */
+    border-radius: 10px; /* Rounded edges */
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #444; /* Medium-dark scrollbar */
-  border-radius: 10px; /* Rounded edges */
-  border: 2px solid #111; /* Creates spacing effect */
+    background: #444; /* Medium-dark scrollbar */
+    border-radius: 10px; /* Rounded edges */
+    border: 2px solid #111; /* Creates spacing effect */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #666; /* Lighter on hover */
+    background: #666; /* Lighter on hover */
 }
 
 /* Auto-hide scrollbar when not scrolling */
 ::-webkit-scrollbar-thumb {
-  visibility: hidden;
-  transition: visibility 0.3s ease-in-out;
+    visibility: hidden;
+    transition: visibility 0.3s ease-in-out;
 }
 
 :hover::-webkit-scrollbar-thumb {
-  visibility: visible;
+    visibility: visible;
 }
 
 /* Scrollbar for Firefox */
 * {
-  scrollbar-width: auto;
-  scrollbar-color: #444 #111;
+    scrollbar-width: auto;
+    scrollbar-color: #444 #111;
 }

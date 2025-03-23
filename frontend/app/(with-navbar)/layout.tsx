@@ -3,6 +3,7 @@ import { Sora, Aleo } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/ui/navbar";
 import BackgroundManager from "@/components/context/backgroundManager";
+import { UserProvider } from "@/components/context/userContext";
 
 const soraSans = Sora({
     // headings, logo, titles, buttons
@@ -32,8 +33,10 @@ export default function RootLayout({
                 className={`${soraSans.variable} ${aleoMono.variable} antialiased bg-darkpurple-500`}
             >
                 <BackgroundManager>
-                    <Navbar />
-                    {children}
+                    <UserProvider>
+                        <Navbar />
+                        {children}
+                    </UserProvider>
                 </BackgroundManager>
             </body>
         </html>

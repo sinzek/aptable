@@ -18,7 +18,12 @@ export const GetStartedButton = () => {
     }, [router]);
 
     return (
-        <Button variant="getstarted" size="lg" onClick={handleClick}>
+        <Button
+            variant="getstarted"
+            size="lg"
+            onClick={handleClick}
+            className="shadow-[0_0_30px_10px_rgba(255,255,255,0.15)]"
+        >
             <span>Get started</span>
             <ArrowRight strokeWidth={3.5} className="mb-1" />
         </Button>

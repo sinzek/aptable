@@ -4,6 +4,7 @@ import { PinglePic } from "@/components/ui/pinglePic";
 import Image from "next/image";
 import { SearchButton, SearchModal } from "@/components/ui/courseSearch";
 import { FadeOverlay } from "@/components/fadeOverlay";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function Home() {
     return (
@@ -83,7 +84,7 @@ export default function Home() {
                             alt="Ribbons underneath Pingle"
                             width="812"
                             height="317"
-                            className="absolute -bottom-12 z-[2] w-[70%] md:w-[80%]"
+                            className="absolute -bottom-4 md:bottom-0 lg:bottom-0 z-[2] w-[70%] md:w-[90%] glow-shadow"
                         />
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion, useAnimation } from "motion/react";
 import { useEffect } from "react";
 import { triggerAnimationEvent } from "./getStartedButton";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export const PinglePic = () => {
     const controls = useAnimation();
@@ -34,24 +35,32 @@ export const PinglePic = () => {
             });
         };
 
-        document.addEventListener("triggerPingleAnimation", handleTriggerAnimation);
+        document.addEventListener(
+            "triggerPingleAnimation",
+            handleTriggerAnimation
+        );
 
         return () => {
-            document.removeEventListener("triggerPingleAnimation", handleTriggerAnimation);
-        }
+            document.removeEventListener(
+                "triggerPingleAnimation",
+                handleTriggerAnimation
+            );
+        };
     }, [controls]);
 
     return (
         <motion.div
             initial={{ opacity: 1 }}
             animate={controls}
-            className="relative z-10 lg:mb-10 w-[60%] md:w-[80%] lg:w-[90%] floating"
+            className="relative z-10 lg:mb-10 w-[60%] md:w-[80%] lg:w-[90%] h-full"
         >
-            <Image
-                src="/pingle_float_2x.webp"
-                alt="A floating Pingle"
-                width="619"
-                height="453"
+            <DotLottieReact
+                src="https://lottie.host/8b4bc7f6-94f4-410b-9203-502427c827b6/1AXqBynZNQ.lottie"
+                loop
+                autoplay
+                width="1000px"
+                height="1000px"
+                className="scale-125"
             />
         </motion.div>
     );

@@ -53,6 +53,10 @@ input:-webkit-autofill:focus {
         box-shadow: #00000080 0px 4px 0px 0px;
     }
 
+    .glow-shadow {
+        filter: drop-shadow(0 0 50px #ffdf4380);
+    }
+
     @keyframes float {
         0% {
             transform: translateY(0);

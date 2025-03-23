@@ -14,9 +14,10 @@ import {
 import PricingCards from "@/components/ui/pricingCards";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db, auth } from "@/utils/firebase";
+import { db, auth } from "@/lib/firebase";
 import Error from "next/error";
 import Image from "next/image";
+import Link from "next/link";
 
 // Define types for form data and errors
 interface FormData {
@@ -262,7 +263,7 @@ export default function Start() {
                 className="absolute top-0 w-full h-full pointer-events-none"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.35 }}
-                transition={{ duration: 2500, type: "spring" }}
+                transition={{ duration: 5, type: "spring" }}
             >
                 <Image
                     src="blob-red.svg"
@@ -686,13 +687,15 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
                 </h2>
                 <PricingCards />
                 <div className="flex flex-col">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-white/50 hover:bg-white/10"
-                    >
-                        I&apos;ll just look around for now
-                    </Button>
+                    <Link href={`/u/${username}`}>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-white/50 hover:bg-white/10"
+                        >
+                            I&apos;ll just look around for now
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </motion.div>

@@ -16,9 +16,11 @@ import { DropdownMenuTrigger } from "./dropdownMenu";
 import { useState } from "react";
 import { SearchBar } from "./searchBar";
 import { motion } from "motion/react";
+import AuthButton from "./loginButton";
 
 const Navbar = () => {
     const [aboutToggled, setAboutToggled] = useState(false);
+
     return (
         <>
             <div className="sticky top-0 left-0 right-0 h-12 md:h-[4.5rem] bg-darkpurple-600/50 flex flex-row items-center justify-between px-40 ui-shadow backdrop-blur-[10px] z-50 overflow-hidden">
@@ -26,7 +28,7 @@ const Navbar = () => {
                     className="absolute top-0 w-full h-full pointer-events-none blur-[200px]"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.35 }}
-                    transition={{ duration: 2500, type: "spring" }}
+                    transition={{ duration: 5, type: "spring" }}
                 >
                     <Image
                         src="blob-yellow.svg"
@@ -104,11 +106,10 @@ const Navbar = () => {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                    <Link href="/login">
-                        <Button variant="ghost" size="default" className="mr-2">
-                            <span>Log in</span>
-                        </Button>
-                    </Link>
+                    <div className="mr-2">
+                        <AuthButton />
+                    </div>
+
                     <GetStartedButton />
                 </div>
             </div>

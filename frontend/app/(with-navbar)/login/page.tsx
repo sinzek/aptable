@@ -3,9 +3,13 @@
 import { FadeOverlay } from "@/components/fadeOverlay";
 import Starfield from "@/components/starfield";
 import { Button } from "@/components/ui/button";
-import { EyeClosed, EyeIcon, LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { EyeClosed, EyeIcon, LockIcon, UserIcon } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { motion } from "motion/react";
+import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useUser } from "@/components/context/userContext";
+import { redirect } from "next/navigation";
 
 interface FormData {
     username: string;
@@ -20,56 +24,152 @@ export default function Login() {
     const [userFocus, setUserFocus] = useState(true);
     const [pwdFocus, setPwdFocus] = useState(false);
     const [eyeOpen, setEyeOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const [formData, setFormData] = useState({
+    const { user, username } = useUser();
+
+    const [formData, setFormData] = useState<FormData>({
         username: "",
         password: "",
     });
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<FormErrors>({
         main: "",
     });
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-
-        // clear error when typing
-        if (errors[name as keyof FormErrors]) {
-            setErrors({
-                ...errors,
-                [name]: "",
-            });
+        setFormData({ ...formData, [name]: value });
+        if (errors.main) {
+            setErrors({ main: "" });
         }
     };
 
     const isEmail = (email: string): boolean => {
-        const re = new RegExp(
-            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
-        );
+        const re = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
         return re.test(email);
     };
 
-    const handleSubmit = async () => {
-        const newErrors = { email: "", password: "", confirm: "" };
-
-        if (isEmail(formData.username)) {
-            // is an email
-        } else {
-            // is a username
+    const checkUsernameAvailability = async (
+        username: string
+    ): Promise<boolean> => {
+        try {
+            const response = await fetch(
+                `/api/users/duplicate-username?username=${encodeURIComponent(
+                    username
+                )}`
+            );
+            const data = await response.json();
+            return data.exists;
+        } catch (error) {
+            console.error("Error checking username", error);
+            return false;
         }
+    };
 
-        // check for existing username/email and password in db
+    const loginUserWithUsername = async (
+        username: string
+    ): Promise<string | null> => {
+        try {
+            const response = await fetch(
+                `/api/users/login-with-username?username=${encodeURIComponent(
+                    username
+                )}`
+            );
+            const data = await response.json();
+            if (data.loginSuccess) {
+                return data.email;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error("Error logging in user with username", error);
+            return null;
+        }
+    };
 
-        if (newErrors.email || newErrors.password) {
-            setErrors({ ...errors, ...newErrors });
+    const handleSubmit = async () => {
+        setLoading(true);
+        const newErrors = { main: "" };
+
+        if (!formData.password || !formData.username) {
+            newErrors.main = "Please fill out all fields.";
+            setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
-        return;
+        try {
+            let userCredential: UserCredential;
+
+            if (isEmail(formData.username)) {
+                userCredential = await signInWithEmailAndPassword(
+                    auth,
+                    formData.username,
+                    formData.password
+                );
+            } else {
+                const usernameExists = await checkUsernameAvailability(
+                    formData.username
+                );
+                if (usernameExists) {
+                    const email = await loginUserWithUsername(
+                        formData.username
+                    );
+                    if (email) {
+                        userCredential = await signInWithEmailAndPassword(
+                            auth,
+                            email,
+                            formData.password
+                        );
+                    } else {
+                        newErrors.main = "Username or password incorrect.";
+                        setErrors(newErrors);
+                        setLoading(false);
+                        return;
+                    }
+                } else {
+                    newErrors.main = "Username or password incorrect.";
+                    setErrors(newErrors);
+                    setLoading(false);
+                    return;
+                }
+            }
+
+            // Get the ID token
+            const idToken = await userCredential.user.getIdToken();
+
+            // Send the ID token to your /api/session endpoint
+            const response = await fetch("/api/session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idToken }),
+            });
+
+            if (!response.ok) {
+                // Handle error setting session cookie
+                throw new Error("Failed to set session cookie");
+            }
+
+            redirect(`/u/${formData.username}`);
+        } catch (error: any) {
+            if (error.code === "auth/invalid-credential") {
+                newErrors.main = "Incorrect email, username, or password";
+            } else {
+                newErrors.main =
+                    error.message || "Login failed. Please try again.";
+            }
+
+            setErrors(newErrors);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    if (user) {
+        redirect(`/u/${username}`);
+    }
 
     return (
         <div className="h-full z-[2]">
@@ -195,6 +295,7 @@ export default function Login() {
                                     className="mr-4"
                                     onClick={() => setEyeOpen(!eyeOpen)}
                                     tabIndex={-1}
+                                    disabled={loading}
                                 >
                                     {eyeOpen ? (
                                         <EyeIcon
@@ -218,7 +319,13 @@ export default function Login() {
                                 onClick={handleSubmit}
                                 className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
                             >
-                                <span className="text-white">Log in</span>
+                                {loading ? (
+                                    <span className="text-white">
+                                        Loading...
+                                    </span>
+                                ) : (
+                                    <span className="text-white">Log in</span>
+                                )}
                             </Button>
                         </div>
                     </div>

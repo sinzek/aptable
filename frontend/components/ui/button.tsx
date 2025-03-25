@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -24,10 +25,12 @@ const buttonVariants = cva(
             },
             size: {
                 default:
-                    "lg:h-10 h-8 rounded-full lg:px-5 px-3 font-semibold lg:text-xl text-base",
-                sm: "h-8 rounded-full px-3 text-base lg:text-lg font-normal",
-                lg: "lg:h-10 h-8 rounded-full lg:px-10 px-5 font-extrabold lg:text-xl text-base",
+                    "md:h-10 h-8 rounded-full md:px-5 px-3 font-semibold md:text-xl text-base",
+                sm: "h-8 rounded-full px-3 text-base md:text-lg font-normal",
+                lg: "md:h-10 h-8 rounded-full md:px-10 px-5 font-extrabold md:text-xl text-base",
                 icon: "h-9 w-9",
+                sidepanel:
+                    "w-full h-10 md:h-12 text-base md:text-xl px-5 rounded-xl",
             },
         },
         defaultVariants: {
@@ -58,4 +61,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>( // forwardRef -
 );
 Button.displayName = "Button"; // helps with debugging in react devtools
 
-export { Button, buttonVariants };
+const MotionButton = motion.create(Button);
+
+export { Button, MotionButton, buttonVariants };

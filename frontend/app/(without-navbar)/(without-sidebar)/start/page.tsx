@@ -12,12 +12,16 @@ import {
     UserIcon,
 } from "lucide-react";
 import PricingCards from "@/components/ui/pricingCards";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    UserCredential,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 import Error from "next/error";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Define types for form data and errors
 interface FormData {
@@ -48,6 +52,7 @@ interface SignupStep2Props extends SignupStep1Props {
 
 interface SignupSuccessProps {
     username: string;
+    formData: FormData;
 }
 
 export default function Start() {
@@ -250,7 +255,7 @@ export default function Start() {
                 opacity: [1, 1, 0.7, 0.3, 0],
                 transition: { duration: 0.5, ease: "easeInOut" },
             });
-        }, 500);
+        }, 100);
     };
 
     useEffect(() => {
@@ -302,9 +307,9 @@ export default function Start() {
                 />
                 <div className="flex flex-col w-full h-full items-center justify-center overflow-hidden">
                     <motion.div
-                        initial={{ opacity: 0, y: "50%" }}
+                        initial={{ opacity: 0, y: 300 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        transition={{ duration: 1, type: "spring" }}
                         className="w-full max-w-md flex flex-col items-center justify-center"
                     >
                         <div className="relative w-full flex flex-col items-center justify-start p-8 overflow-visible">
@@ -329,6 +334,7 @@ export default function Start() {
                                 {stepNum === 2 && (
                                     <SignupSuccess
                                         username={formData.username}
+                                        formData={formData}
                                     />
                                 )}
                             </AnimatePresence>
@@ -646,7 +652,41 @@ const SignupStep2 = ({
 };
 
 // success step
-const SignupSuccess = ({ username }: SignupSuccessProps) => {
+const SignupSuccess = ({ username, formData }: SignupSuccessProps) => {
+    const router = useRouter();
+
+    const login = async () => {
+        try {
+            const userCredential: UserCredential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    formData.email,
+                    formData.password
+                );
+
+            const idToken = await userCredential.user.getIdToken();
+
+            const response = await fetch("/api/session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idToken }),
+            });
+
+            if (!response.ok) {
+                console.error("Could not fetch session");
+                return;
+            }
+
+            console.log("Session fetched");
+
+            router.push(`/u/${username}`);
+        } catch (error) {
+            console.error("Could not log in user", error);
+        }
+    };
+
     return (
         <motion.div
             key="success"
@@ -687,15 +727,14 @@ const SignupSuccess = ({ username }: SignupSuccessProps) => {
                 </h2>
                 <PricingCards />
                 <div className="flex flex-col">
-                    <Link href={`/u/${username}`}>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-white/50 hover:bg-white/10"
-                        >
-                            I&apos;ll just look around for now
-                        </Button>
-                    </Link>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-white/50 hover:bg-white/10"
+                        onClick={login}
+                    >
+                        I&apos;ll just look around for now
+                    </Button>
                 </div>
             </div>
         </motion.div>

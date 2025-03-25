@@ -1,4 +1,3 @@
-import { StringToBoolean } from "class-variance-authority/types";
 import { SearchIcon } from "lucide-react";
 import React from "react";
 
@@ -26,5 +25,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
         );
     }
 );
+
+SearchBar.displayName = "Search Bar";
 
 export { SearchBar };

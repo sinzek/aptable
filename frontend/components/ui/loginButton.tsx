@@ -1,73 +1,68 @@
-// frontend/components/AuthButton.tsx
-
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/components/context/userContext";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
-import cookies from "js-cookie";
-import { Button } from "./button";
+import { MotionButton } from "./button";
+import { LoaderCircleIcon, LogOutIcon, LogInIcon } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function AuthButton() {
-    const { user, logout } = useUser();
+    const { user, logout, loading, loggingOut } = useUser();
     const router = useRouter();
-    const [clientCookieExists, setClientCookieExists] = useState<
-        boolean | null
-    >(null);
-    const [serverAuthChecked, setServerAuthChecked] = useState(false);
 
-    useEffect(() => {
-        const sessionCookie = cookies.get("session");
-        setClientCookieExists(!!sessionCookie);
-        console.log("client cookie exists: ", !!sessionCookie);
+    const buttonStates = {
+        login: {
+            label: "Log in",
+            icon: LogInIcon,
+            action: () => router.push("/login"),
+        },
+        logout: {
+            label: "Log out",
+            icon: LogOutIcon,
+            action: handleLogout,
+        },
+        loading: {
+            label: "Loading",
+            icon: LoaderCircleIcon,
+            action: () => {},
+        },
+    };
 
-        async function checkSession() {
-            try {
-                const response = await fetch("/api/session/check");
-                if (response.ok) {
-                    // server verified session
-                } else {
-                    setClientCookieExists(false); // server-side check failed
-                }
-            } catch (error) {
-                console.error("Error checking session:", error);
-                setClientCookieExists(false); // server-side check failed
-            } finally {
-                setServerAuthChecked(true);
-            }
-        }
+    const currentState = loggingOut
+        ? "loading"
+        : loading
+        ? "loading"
+        : user
+        ? "logout"
+        : "login";
 
-        checkSession();
-    }, []);
+    const { label, icon: ButtonIcon, action } = buttonStates[currentState];
 
-    if (!serverAuthChecked) {
-        // display button based on client-side cookie presence (temporary)
-        return (
-            <Button
-                onClick={() =>
-                    clientCookieExists ? handleLogout() : router.push("/login")
-                }
-                variant="ghost"
-                size="default"
-            >
-                <span className="text-white front-aleo">
-                    {clientCookieExists ? "Log out" : "Log in"}
-                </span>
-            </Button>
-        );
-    }
-
-    // display button based on server-verified user state
     return (
-        <Button
-            onClick={() => (user ? handleLogout() : router.push("/login"))}
+        <MotionButton
+            onClick={action}
             variant="ghost"
             size="default"
+            disabled={loading || loggingOut}
+            className="md:min-w-[108px] justify-center"
+            layout
         >
-            <span className="text-white front-aleo">
-                {user ? "Log out" : "Log in"}
-            </span>
-        </Button>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentState}
+                    className="flex items-center gap-2 text-white font-aleo"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                >
+                    {currentState === "loading" ? (
+                        <ButtonIcon strokeWidth={3} className="animate-spin" />
+                    ) : (
+                        <>
+                            <span>{label}</span>
+                        </>
+                    )}
+                </motion.div>
+            </AnimatePresence>
+        </MotionButton>
     );
 
     async function handleLogout() {
@@ -77,8 +72,7 @@ export default function AuthButton() {
             });
 
             if (response.ok) {
-                await signOut(auth);
-                logout();
+                await logout();
                 router.push("/");
             } else {
                 console.error("Logout failed");

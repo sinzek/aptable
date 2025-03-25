@@ -15,45 +15,63 @@ import {
 import { DropdownMenuTrigger } from "./dropdownMenu";
 import { useState } from "react";
 import { SearchBar } from "./searchBar";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import AuthButton from "./loginButton";
+import { AptableLogo } from "./aptableLogo";
+import { useUser } from "../context/userContext";
 
 const Navbar = () => {
     const [aboutToggled, setAboutToggled] = useState(false);
+    const [animationDone, setAnimationDone] = useState(false);
 
     return (
-        <>
-            <div className="sticky top-0 left-0 right-0 h-12 md:h-[4.5rem] bg-darkpurple-600/50 flex flex-row items-center justify-between px-40 ui-shadow backdrop-blur-[10px] z-50 overflow-hidden">
+        <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: "0" }}
+            onAnimationComplete={() => setAnimationDone(true)}
+        >
+            <div
+                className={`sticky top-0 left-0 right-0 h-12 md:h-[4.5rem] bg-darkpurple-600/50 flex flex-row items-center justify-between px-20 ui-shadow transition-all duration-500 z-50 overflow-hidden ${
+                    animationDone
+                        ? "backdrop-blur-[10px]"
+                        : "backdrop-blur-none"
+                }`}
+            >
+                {animationDone && (
+                    <motion.div
+                        className="absolute top-0 w-full h-full pointer-events-none blur-[200px]"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.35 }}
+                        transition={{ duration: 5, type: "spring" }}
+                    >
+                        <Image
+                            src="blob-yellow.svg"
+                            alt="background-blob"
+                            width={510}
+                            height={510}
+                            className="absolute bottom-0 left-[-11%]"
+                        />
+                    </motion.div>
+                )}
+
                 <motion.div
-                    className="absolute top-0 w-full h-full pointer-events-none blur-[200px]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.35 }}
-                    transition={{ duration: 5, type: "spring" }}
+                    layout
+                    className="flex flex-row items-center justify-center"
                 >
-                    <Image
-                        src="blob-yellow.svg"
-                        alt="background-blob"
-                        width={510}
-                        height={510}
-                        className="absolute bottom-0 left-[-11%]"
+                    <Link href="/">
+                        <AptableLogo width={150} height={75} />
+                    </Link>
+                </motion.div>
+                <motion.div layout>
+                    <SearchBar
+                        placeholder={"Search courses"}
+                        className="2xl:absolute 2xl:left-1/2 2xl:transform 2xl:-translate-x-1/2 md:w-1/4 lg:w-96 2xl:w-1/5 hidden md:flex"
                     />
                 </motion.div>
-                <div className="flex flex-row items-center justify-center">
-                    <Link href="/">
-                        <Image
-                            src="Aptable-Logo.svg"
-                            alt="Aptable logo"
-                            width="150"
-                            height="75"
-                            className="transition-all duration-100 hover:filter hover:drop-shadow-[0px_3px_0px_rgba(15,11,20,1)] hover:translate-y-[-1.5px] active:drop-shadow-none active:translate-y-0"
-                        />
-                    </Link>
-                </div>
-                <SearchBar
-                    placeholder={"Find a course"}
-                    className="2xl:absolute 2xl:left-1/2 2xl:transform 2xl:-translate-x-1/2 md:w-1/4 lg:w-96 2xl:w-1/5 hidden md:flex"
-                />
-                <div className="flex flex-row items-center justify-center gap-4">
+                <motion.div
+                    layout
+                    className="flex flex-row items-center justify-center gap-4"
+                >
                     <div
                         onMouseEnter={() => setAboutToggled(true)}
                         onMouseLeave={() => setAboutToggled(false)}
@@ -106,14 +124,16 @@ const Navbar = () => {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                    <div className="mr-2">
+                    <motion.div layout className="mr-2">
                         <AuthButton />
-                    </div>
+                    </motion.div>
 
-                    <GetStartedButton />
-                </div>
+                    <motion.div layout>
+                        <GetStartedButton />
+                    </motion.div>
+                </motion.div>
             </div>
-        </>
+        </motion.div>
     );
 };
 

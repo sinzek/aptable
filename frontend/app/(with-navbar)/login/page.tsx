@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useUser } from "@/components/context/userContext";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface FormData {
     username: string;
@@ -21,6 +21,8 @@ interface FormErrors {
 }
 
 export default function Login() {
+    const router = useRouter();
+
     const [userFocus, setUserFocus] = useState(true);
     const [pwdFocus, setPwdFocus] = useState(false);
     const [eyeOpen, setEyeOpen] = useState(false);
@@ -152,7 +154,10 @@ export default function Login() {
                 throw new Error("Failed to set session cookie");
             }
 
-            redirect(`/u/${formData.username}`);
+            newErrors.main = "";
+            setErrors(newErrors);
+
+            router.push(`/u/${formData.username}`);
         } catch (error: any) {
             if (error.code === "auth/invalid-credential") {
                 newErrors.main = "Incorrect email, username, or password";
@@ -168,7 +173,7 @@ export default function Login() {
     };
 
     if (user) {
-        redirect(`/u/${username}`);
+        router.push(`/u/${username}`);
     }
 
     return (
@@ -213,9 +218,9 @@ export default function Login() {
 
             <motion.div
                 className="flex flex-col w-full fixed inset-0 h-full items-center justify-center"
-                initial={{ opacity: 0, y: "50%" }}
+                initial={{ opacity: 0, y: 300 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 1, type: "spring" }}
             >
                 <div className="max-w-md w-full p-8">
                     <div className="flex flex-col gap-4">

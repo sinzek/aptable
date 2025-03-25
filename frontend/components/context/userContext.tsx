@@ -4,13 +4,14 @@
 
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
 interface UserContextType {
     user: User | null;
     username: string | null;
     loading: boolean;
+    loggingOut: boolean;
     logout: () => void; // Add logout function
 }
 
@@ -18,6 +19,7 @@ const UserContext = createContext<UserContextType>({
     user: null,
     username: null,
     loading: true,
+    loggingOut: false,
     logout: () => {},
 });
 
@@ -25,10 +27,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [loggingOut, setLoggingOut] = useState<boolean>(false);
 
-    const logout = () => {
+    const logout = async () => {
+        setLoggingOut(true);
         setUser(null);
         setUsername(null);
+        return signOut(auth).finally(() => setLoggingOut(false));
     };
 
     useEffect(() => {
@@ -38,10 +43,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
                     user.metadata.creationTime === user.metadata.lastSignInTime;
                 if (isNewUser) {
                     // Apply delay only for new users
-                    await new Promise((resolve) => setTimeout(resolve, 500));
+                    await new Promise((resolve) => setTimeout(resolve, 200));
                 }
-
-                setUser(user);
 
                 const userDocRef = doc(db, "users", user.uid);
                 const userDocSnap = await getDoc(userDocRef);
@@ -63,7 +66,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, username, loading, logout }}>
+        <UserContext.Provider
+            value={{ user, username, loading, loggingOut, logout }}
+        >
             {children}
         </UserContext.Provider>
     );

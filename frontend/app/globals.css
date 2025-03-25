@@ -49,6 +49,12 @@ input:-webkit-autofill:focus {
     .ui-shadow {
         box-shadow: #00000080 0px 4px 8px 0px;
     }
+
+    .inner-shadow {
+        -webkit-box-shadow: inset 0px 0px 30px 8px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: inset 0px 0px 30px 8px rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0px 0px 30px 8px rgba(0, 0, 0, 0.5);
+    }
     .button-shadow {
         box-shadow: #00000080 0px 4px 0px 0px;
     }

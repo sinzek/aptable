@@ -4,7 +4,6 @@ import { PinglePic } from "@/components/ui/pinglePic";
 import Image from "next/image";
 import { SearchButton, SearchModal } from "@/components/ui/courseSearch";
 import { FadeOverlay } from "@/components/fadeOverlay";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function Home() {
     return (

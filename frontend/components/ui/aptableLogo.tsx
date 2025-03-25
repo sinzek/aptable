@@ -23,4 +23,22 @@ export const AptableLogo = React.forwardRef<HTMLImageElement, AptableLogoProps>(
     }
 );
 
-AptableLogo.displayName = "Username";
+export const MiniAptableLogo = React.forwardRef<
+    HTMLImageElement,
+    AptableLogoProps
+>(({ className, width, height, ...props }, ref) => {
+    return (
+        <Image
+            ref={ref}
+            src="/pingleIcon.svg"
+            alt="Aptable logo"
+            width={width}
+            height={height}
+            className={`transition-all duration-100 hover:filter hover:drop-shadow-[0px_3px_0px_rgba(15,11,20,1)] hover:translate-y-[-1.5px] active:drop-shadow-none active:translate-y-0 ${className}`}
+            {...props}
+        />
+    );
+});
+
+AptableLogo.displayName = "Logo";
+MiniAptableLogo.displayName = "MiniLogo";

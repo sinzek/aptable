@@ -11,7 +11,7 @@ import {
     ShieldCheckIcon,
     UserIcon,
 } from "lucide-react";
-import PricingCards from "@/components/ui/pricingCards";
+import PricingCards from "./pricingCards";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,

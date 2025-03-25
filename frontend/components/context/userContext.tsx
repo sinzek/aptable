@@ -33,7 +33,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         setLoggingOut(true);
         setUser(null);
         setUsername(null);
-        return signOut(auth).finally(() => setLoggingOut(false));
+        await signOut(auth);
+        setLoggingOut(false);
     };
 
     useEffect(() => {

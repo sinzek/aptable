@@ -3,7 +3,7 @@ import { Sora, Aleo } from "next/font/google";
 import "@/app/globals.css";
 import BackgroundManager from "@/components/context/backgroundManager";
 import { UserProvider } from "@/components/context/userContext";
-import SurroundUI from "@/components/ui/surroundUI";
+import SurroundUI from "./surroundUI";
 
 const soraSans = Sora({
     // headings, logo, titles, buttons

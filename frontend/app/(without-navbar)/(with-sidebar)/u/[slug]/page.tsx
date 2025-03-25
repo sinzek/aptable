@@ -1,6 +1,7 @@
 // /frontend/app/u/[slug]/page.tsx
 import * as admin from "firebase-admin";
 import { notFound } from "next/navigation";
+import AuthButton from "@/components/ui/loginButton";
 
 // Initialize Firebase Admin if not already initialized
 if (!admin.apps.length) {
@@ -38,7 +39,15 @@ export default async function Page({
     const { slug } = await params;
 
     const userExists = await checkUsernameAvailability(slug);
-    console.log("Does username", slug, "exist? |", userExists);
+
+    if (slug === "null") {
+        return (
+            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-maroon-500">
+                <AuthButton />
+            </div>
+        );
+    }
+
     if (!userExists) {
         notFound();
     }

@@ -1,6 +1,8 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useUser } from "@/components/context/userContext";
-import { MotionButton } from "./button";
+import { MotionButton } from "@/components/ui/button";
 import { LoaderCircleIcon, LogOutIcon, LogInIcon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -35,6 +37,10 @@ export default function AuthButton() {
         : "login";
 
     const { label, icon: ButtonIcon, action } = buttonStates[currentState];
+
+    interface MotionButtonProps {
+        variant: string;
+    }
 
     return (
         <MotionButton
@@ -72,7 +78,7 @@ export default function AuthButton() {
             });
 
             if (response.ok) {
-                await logout();
+                logout();
                 router.push("/");
             } else {
                 console.error("Logout failed");

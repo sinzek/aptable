@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { GetStartedButton } from "./getStartedButton";
+import { GetStartedButton } from "@/components/ui/getStartedButton";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import {
@@ -11,14 +11,14 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuSeparator,
-} from "./dropdownMenu";
-import { DropdownMenuTrigger } from "./dropdownMenu";
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdownMenu";
 import { useState } from "react";
-import { SearchBar } from "./searchBar";
+import { SearchBar } from "@/components/ui/searchBar";
 import { motion } from "framer-motion";
-import AuthButton from "./loginButton";
-import { AptableLogo } from "./aptableLogo";
-import { useUser } from "../context/userContext";
+import AuthButton from "@/components/ui/loginButton";
+import { AptableLogo } from "@/components/ui/aptableLogo";
+import { useUser } from "@/components/context/userContext";
 
 const Navbar = () => {
     const [aboutToggled, setAboutToggled] = useState(false);

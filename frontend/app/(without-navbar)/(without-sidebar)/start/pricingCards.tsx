@@ -1,6 +1,6 @@
 import { ArrowRight, FlameIcon, GraduationCap, LaughIcon } from "lucide-react";
 import { motion } from "motion/react";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 const PricingCards = () => {
     return (

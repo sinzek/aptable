@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Button } from "./button";
+import { Button } from "@/components/ui/button";
 
 export const UserModal = () => {
     const [isOpen, setIsOpen] = useState(false);

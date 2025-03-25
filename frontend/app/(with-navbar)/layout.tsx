@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Aleo } from "next/font/google";
 import "../globals.css";
-import Navbar from "@/components/ui/navbar";
+import Navbar from "./navbar";
 import BackgroundManager from "@/components/context/backgroundManager";
 import { UserProvider } from "@/components/context/userContext";
 

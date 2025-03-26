@@ -33,7 +33,7 @@ export const UserCard: React.FC<UserCardProps> = ({ isSidebarOpen }) => {
             pfp: (
                 <Image
                     alt="Your profile picture"
-                    src="/temporary-PFP.jpeg"
+                    src="https://picsum.photos/100"
                     width={100}
                     height={100}
                     className="aspect-square object-contain w-auto h-full rounded-lg"

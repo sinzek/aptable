@@ -1,37 +1,12 @@
 // /frontend/app/u/[slug]/page.tsx
-import { initializeApp } from "firebase-admin/app";
-import { apps, credential, firestore } from "firebase-admin";
 
 import { notFound } from "next/navigation";
 import AuthButton from "@/components/ui/loginButton";
-
-// Initialize Firebase Admin if not already initialized
-if (!apps.length) {
-    initializeApp({
-        credential: credential.cert({
-            projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
-            clientEmail: process.env.FBADMIN_CLIENT_EMAIL,
-            privateKey: process.env.FBADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-        }),
-    });
-}
-
-const db = firestore();
-
-async function checkUsernameAvailability(username: string) {
-    try {
-        const snapshot = await db
-            .collection("users")
-            .where("username", "==", username)
-            .limit(1)
-            .get();
-
-        return !snapshot.empty;
-    } catch (error) {
-        console.error("Error checking username:", error);
-        return false;
-    }
-}
+import {
+    checkUsernameAvailability,
+    getSessionWithUid,
+    getUsernameFromUid,
+} from "@/lib/server-utils";
 
 export default async function Page({
     params,
@@ -42,23 +17,46 @@ export default async function Page({
 
     const userExists = await checkUsernameAvailability(slug);
 
-    if (slug === "null") {
-        return (
-            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-maroon-500">
-                <AuthButton />
-            </div>
-        );
-    }
-
     if (!userExists) {
         notFound();
     }
 
+    const sessionInfo = await getSessionWithUid();
+    let username: string | null = null;
+
+    if (sessionInfo?.uid) {
+        username = await getUsernameFromUid(sessionInfo.uid);
+    }
+
+    if (slug === "null") {
+        // need to disallow username "null" lol
+        return (
+            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-maroon-300">
+                <AuthButton />
+            </div>
+        );
+    } else if (
+        !sessionInfo?.authenticated ||
+        (sessionInfo?.authenticated && username != slug) // if user is on an existing profile but is not logged in, or if the user is logged in but is viewing another user's profile
+    ) {
+        return (
+            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-red-600 to-maroon-500">
+                <p className="mr-1">This is</p>
+                <p className="font-bold font-sora text-teal-500 mb-[2px]">
+                    {slug}
+                </p>
+                &apos;s Personal Home :3
+            </div>
+        );
+    }
+
     return (
-        <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-purple-500 to-maroon-400">
-            <p className="mr-1">This is</p>
-            <p className="font-bold font-sora text-teal-500 mb-[2px]">{slug}</p>
-            &apos;s Personal Home :3
+        <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-purple-500 to-maroon-400 p-8">
+            <p className="">This is&nbsp;</p>
+            <p className="font-bold font-sora text-teal-500 mb-[2px]">
+                your&nbsp;
+            </p>
+            Personal Home :3
         </div>
     );
 }

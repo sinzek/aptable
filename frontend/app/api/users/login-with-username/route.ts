@@ -1,18 +1,5 @@
 import { NextResponse } from "next/server";
-import * as admin from "firebase-admin";
-
-// initialize Firebase Admin if not already initialized
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
-            clientEmail: process.env.FBADMIN_CLIENT_EMAIL,
-            privateKey: process.env.FBADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-        }),
-    });
-}
-
-const db = admin.firestore();
+import { adminDB } from "@/lib/firebase-admin";
 
 export async function GET(request: Request) {
     try {
@@ -29,7 +16,7 @@ export async function GET(request: Request) {
             );
         }
 
-        const snapshot = await db
+        const snapshot = await adminDB
             .collection("users")
             .where("username", "==", username)
             .limit(1)

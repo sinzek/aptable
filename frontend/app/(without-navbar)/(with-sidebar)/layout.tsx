@@ -28,7 +28,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
                 className={`${soraSans.variable} ${aleoMono.variable} antialiased bg-darkpurple-800`}
             >

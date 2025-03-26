@@ -21,14 +21,23 @@ export async function GET(request: Request) {
         const token = (await cookies()).get("session")?.value;
 
         if (!token) {
-            return NextResponse.json({ authenticated: false }, { status: 401 });
+            return NextResponse.json(
+                { authenticated: false, uid: null },
+                { status: 401 }
+            );
         }
 
-        await getAuth().verifySessionCookie(token);
+        const decodedToken = await getAuth().verifySessionCookie(token);
 
-        return NextResponse.json({ authenticated: true });
+        return NextResponse.json({
+            authenticated: true,
+            uid: decodedToken.uid,
+        });
     } catch (error) {
         console.error("Session check error:", error);
-        return NextResponse.json({ authenticated: false }, { status: 401 });
+        return NextResponse.json(
+            { authenticated: false, uid: null },
+            { status: 401 }
+        );
     }
 }

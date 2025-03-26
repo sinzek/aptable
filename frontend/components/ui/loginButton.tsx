@@ -38,10 +38,6 @@ export default function AuthButton() {
 
     const { label, icon: ButtonIcon, action } = buttonStates[currentState];
 
-    interface MotionButtonProps {
-        variant: string;
-    }
-
     return (
         <MotionButton
             onClick={action}

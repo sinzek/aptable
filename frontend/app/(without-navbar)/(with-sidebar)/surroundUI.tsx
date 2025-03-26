@@ -9,6 +9,8 @@ import Link from "next/link";
 import { Button, MotionButton } from "@/components/ui/button";
 import { UserModal } from "./userModal";
 import { UserCard } from "./userCard";
+import { PingleBox } from "./pingleBox";
+import { ChevronsLeftIcon } from "lucide-react";
 
 interface SurroundUIProps {
     children?: ReactNode;
@@ -81,9 +83,9 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                 variants={sidebarVariants}
                 className={`fixed top-0 left-0 h-screen w-[265px] bg-darkpurple-500 backdrop-blur-[10px] py-5 z-50 px-1`}
             >
-                <div className="flex flex-col items-center justify-between h-full w-full">
-                    <div className="flex flex-col items-center w-full gap-12 px-2">
-                        <div className="min-h-[100px]">
+                <div className="relative flex flex-col items-center justify-between h-full w-full z-[1]">
+                    <div className="flex flex-col items-center w-full gap-8 px-2">
+                        <div className="min-h-[80px]">
                             <AnimatePresence mode="wait">
                                 {isSidebarOpen ? (
                                     <motion.div
@@ -122,7 +124,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                                 <MotionButton
                                     variant="ghost"
                                     size="sidepanel"
-                                    className={`w-full justify-start gap-5 hover:bg-purple-500/75`}
+                                    className={`w-full justify-start gap-5 hover:bg-white/25`}
                                     animate={{
                                         paddingRight: isSidebarOpen
                                             ? "auto"
@@ -161,7 +163,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                                 <MotionButton
                                     variant="ghost"
                                     size="sidepanel"
-                                    className="w-full justify-start gap-5 hover:bg-purple-500/75"
+                                    className="w-full justify-start gap-5 hover:bg-white/25"
                                     animate={{
                                         paddingRight: isSidebarOpen
                                             ? "auto"
@@ -198,7 +200,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                             <MotionButton
                                 variant="ghost"
                                 size="sidepanel"
-                                className="w-full justify-start gap-5 hover:bg-purple-500/75"
+                                className="w-full justify-start gap-5 hover:bg-white/25"
                                 animate={{
                                     paddingRight: isSidebarOpen
                                         ? "auto"
@@ -234,7 +236,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                             <MotionButton
                                 variant="ghost"
                                 size="sidepanel"
-                                className="w-full justify-start gap-5 hover:bg-purple-500/75"
+                                className="w-full justify-start gap-5 hover:bg-white/25"
                                 animate={{
                                     paddingRight: isSidebarOpen
                                         ? "auto"
@@ -269,12 +271,22 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                             </MotionButton>
                         </nav>
                     </div>
+                    <PingleBox isSidebarOpen={isSidebarOpen} />
                     <Button
                         onClick={toggleSidebar}
                         variant="ghost"
-                        className="w-full text-white hover:bg-purple-500/75"
+                        className={`w-6 -right-[44px] absolute top-16 text-white rounded-l-none bg-darkpurple-500 hover:brightness-125 hover:bg-darkpurple-500 transition-all duration-100 -z-10 active:brightness-100 p-0`}
+                        title={`${
+                            isSidebarOpen ? "Shrink sidebar" : "Enlarge sidebar"
+                        }`}
                     >
-                        {isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
+                        <ChevronsLeftIcon
+                            strokeWidth={3}
+                            className={`${
+                                isSidebarOpen ? "rotate-0" : "rotate-180"
+                            } transition-all duration-200 ease-in scale-125`}
+                            opacity="0.5"
+                        />
                     </Button>
                 </div>
             </motion.div>

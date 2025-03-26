@@ -1,12 +1,14 @@
 // /frontend/app/u/[slug]/page.tsx
-import * as admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
+import { apps, credential, firestore } from "firebase-admin";
+
 import { notFound } from "next/navigation";
 import AuthButton from "@/components/ui/loginButton";
 
 // Initialize Firebase Admin if not already initialized
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
+if (!apps.length) {
+    initializeApp({
+        credential: credential.cert({
             projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
             clientEmail: process.env.FBADMIN_CLIENT_EMAIL,
             privateKey: process.env.FBADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"),
@@ -14,7 +16,7 @@ if (!admin.apps.length) {
     });
 }
 
-const db = admin.firestore();
+const db = firestore();
 
 async function checkUsernameAvailability(username: string) {
     try {

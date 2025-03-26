@@ -50,14 +50,14 @@ export const PinglePic = () => {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: -200 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: -200, x: 0 }}
+            animate={{ opacity: 1, y: 0, x: "5%" }}
             transition={{ type: "spring", duration: 2 }}
         >
             <motion.div
                 initial={{ opacity: 1 }}
                 animate={controls}
-                className="relative z-10 lg:mb-10 w-[60%] md:w-[80%] lg:w-[90%] h-full"
+                className="relative z-2 lg:mb-10 w-[60%] md:w-[80%] lg:w-[90%] h-full"
             >
                 <DotLottieReact
                     src="https://lottie.host/8b4bc7f6-94f4-410b-9203-502427c827b6/1AXqBynZNQ.lottie"

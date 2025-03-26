@@ -1,11 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, MotionButton } from "@/components/ui/button";
 import { useState, ChangeEvent, useEffect } from "react";
 import { motion, useAnimation, AnimatePresence } from "motion/react";
 import {
     EyeClosed,
     EyeIcon,
+    LoaderCircleIcon,
     LockIcon,
     MailIcon,
     ShieldCheckIcon,
@@ -40,6 +41,7 @@ interface FormErrors {
 
 // prop types for each component
 interface SignupStep1Props {
+    isLoading: boolean;
     formData: FormData;
     errors: FormErrors;
     handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -47,6 +49,7 @@ interface SignupStep1Props {
 }
 
 interface SignupStep2Props extends SignupStep1Props {
+    isLoading: boolean;
     handleBack: () => void;
 }
 
@@ -57,6 +60,8 @@ interface SignupSuccessProps {
 
 export default function Start() {
     const [stepNum, setStepNum] = useState(0);
+    const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -104,7 +109,7 @@ export default function Start() {
     };
 
     const validateUsername = (username: string): boolean => {
-        return username.length >= 3;
+        return username.length > 2 && username.length < 21;
     };
 
     const checkUsernameAvailability = async (username: string) => {
@@ -181,7 +186,7 @@ export default function Start() {
             if (!validateUsername(formData.username)) {
                 setErrors({
                     ...errors,
-                    username: "Username must be at least 3 characters",
+                    username: "Username must be between 3 and 20 characters",
                 });
                 return;
             }
@@ -204,10 +209,7 @@ export default function Start() {
     };
 
     const handleCompleteSignup = async (): Promise<void> => {
-        controls.start({
-            opacity: [0, 0, 0.3, 0.7, 1],
-            transition: { duration: 0.5, ease: "easeInOut" },
-        });
+        setLoading(true);
 
         console.log("Form submitted:", formData);
         try {
@@ -230,6 +232,11 @@ export default function Start() {
                 "User created successfully with username:",
                 formData.username
             );
+
+            controls.start({
+                opacity: [0, 0, 0.3, 0.7, 1],
+                transition: { duration: 0.5, ease: "easeInOut" },
+            });
         } catch (error: any) {
             console.error("Error signing up:", error); // Log the full error object
 
@@ -248,6 +255,8 @@ export default function Start() {
                 alert("An error occurred during signup. Please try again.");
             }
         }
+
+        setLoading(false);
 
         setTimeout(() => {
             setStepNum(2);
@@ -316,6 +325,7 @@ export default function Start() {
                             <AnimatePresence mode="wait">
                                 {stepNum === 0 && (
                                     <SignupStep1
+                                        isLoading={loading}
                                         formData={formData}
                                         errors={errors}
                                         handleInputChange={handleInputChange}
@@ -324,6 +334,7 @@ export default function Start() {
                                 )}
                                 {stepNum === 1 && (
                                     <SignupStep2
+                                        isLoading={loading}
                                         formData={formData}
                                         errors={errors}
                                         handleInputChange={handleInputChange}
@@ -333,6 +344,7 @@ export default function Start() {
                                 )}
                                 {stepNum === 2 && (
                                     <SignupSuccess
+                                        isLoading={loading}
                                         username={formData.username}
                                         formData={formData}
                                     />
@@ -388,6 +400,7 @@ export default function Start() {
 
 // Step 1: Email and Password
 const SignupStep1 = ({
+    isLoading,
     formData,
     errors,
     handleInputChange,
@@ -546,14 +559,37 @@ const SignupStep1 = ({
                 </div>
 
                 <div className="flex flex-col items-center">
-                    <Button
+                    <MotionButton
+                        disabled={isLoading}
                         variant="outline"
                         size="lg"
                         onClick={handleNextStep}
                         className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
                     >
-                        <span className="text-white">Next</span>
-                    </Button>
+                        <AnimatePresence mode="wait">
+                            {isLoading ? (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    <LoaderCircleIcon
+                                        strokeWidth={3}
+                                        className="animate-spin"
+                                    />
+                                </motion.div>
+                            ) : (
+                                <motion.span
+                                    className="text-white"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    Next
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
+                    </MotionButton>
                 </div>
             </div>
         </motion.div>
@@ -562,6 +598,7 @@ const SignupStep1 = ({
 
 // step 2: username
 const SignupStep2 = ({
+    isLoading,
     formData,
     errors,
     handleInputChange,
@@ -628,11 +665,34 @@ const SignupStep2 = ({
                 <div className="flex flex-col items-center">
                     <Button
                         variant="outline"
+                        disabled={isLoading}
                         size="lg"
                         onClick={handleNextStep}
                         className="bg-white/20 hover:bg-white/30 border-white/30 mt-4"
                     >
-                        <span className="text-white">Next</span>
+                        <AnimatePresence mode="wait">
+                            {isLoading ? (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    <LoaderCircleIcon
+                                        strokeWidth={3}
+                                        className="animate-spin"
+                                    />
+                                </motion.div>
+                            ) : (
+                                <motion.span
+                                    className="text-white"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    Next
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
                     </Button>
                 </div>
 
@@ -654,8 +714,10 @@ const SignupStep2 = ({
 // success step
 const SignupSuccess = ({ username, formData }: SignupSuccessProps) => {
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     const login = async () => {
+        setLoading(true);
         try {
             const userCredential: UserCredential =
                 await signInWithEmailAndPassword(
@@ -685,6 +747,7 @@ const SignupSuccess = ({ username, formData }: SignupSuccessProps) => {
         } catch (error) {
             console.error("Could not log in user", error);
         }
+        setLoading(false);
     };
 
     return (
@@ -733,7 +796,29 @@ const SignupSuccess = ({ username, formData }: SignupSuccessProps) => {
                         className="text-white/50 hover:bg-white/10"
                         onClick={login}
                     >
-                        I&apos;ll just look around for now
+                        <AnimatePresence mode="wait">
+                            {loading ? (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    <LoaderCircleIcon
+                                        strokeWidth={3}
+                                        className="animate-spin"
+                                    />
+                                </motion.div>
+                            ) : (
+                                <motion.span
+                                    className="text-white"
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                >
+                                    I&apos;ll just look around for now
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
                     </Button>
                 </div>
             </div>

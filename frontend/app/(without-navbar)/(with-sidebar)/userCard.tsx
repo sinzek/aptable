@@ -40,7 +40,7 @@ export const UserCard: React.FC<UserCardProps> = ({ isSidebarOpen }) => {
                 />
             ),
             action: () => {
-                window.location.hash = "#user-info";
+                window.location.hash = "#account";
             },
         },
         loading: {
@@ -69,6 +69,7 @@ export const UserCard: React.FC<UserCardProps> = ({ isSidebarOpen }) => {
                     } bg-gradient-to-br from-purple-600 to-purple-700 hover:bg-gradient-to-br hover:from-purple-500 hover:to-purple-600 transition-all duration-150 rounded-xl p-3 flex flex-row gap-3 shadow-md hover:shadow-lg active:shadow-none active:brightness-75 opacity-100 disabled:opacity-50`}
                     disabled={loading || loggingOut}
                     onClick={action}
+                    title="Account"
                 >
                     <AnimatePresence mode="wait">
                         <motion.div

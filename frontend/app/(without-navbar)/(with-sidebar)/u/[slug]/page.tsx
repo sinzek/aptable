@@ -31,7 +31,7 @@ export default async function Page({
     if (slug === "null") {
         // need to disallow username "null" lol
         return (
-            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-maroon-300">
+            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-maroon-300 overflow-hidden">
                 <AuthButton />
             </div>
         );
@@ -40,7 +40,7 @@ export default async function Page({
         (sessionInfo?.authenticated && username != slug) // if user is on an existing profile but is not logged in, or if the user is logged in but is viewing another user's profile
     ) {
         return (
-            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-red-600 to-maroon-500">
+            <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-red-600 to-maroon-500 overflow-hidden">
                 <p className="mr-1">This is</p>
                 <p className="font-bold font-sora text-teal-500 mb-[2px]">
                     {slug}
@@ -51,7 +51,7 @@ export default async function Page({
     }
 
     return (
-        <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-purple-500 to-maroon-400 p-8">
+        <div className="flex flex-row h-screen w-full items-center justify-center text-2xl text-white font-aleo glow-shadow bg-gradient-to-br from-purple-500 to-maroon-400 p-8 overflow-hidden">
             <p className="">This is&nbsp;</p>
             <p className="font-bold font-sora text-teal-500 mb-[2px]">
                 your&nbsp;

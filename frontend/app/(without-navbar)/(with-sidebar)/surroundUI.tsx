@@ -11,6 +11,7 @@ import { UserModal } from "./userModal";
 import { UserCard } from "./userCard";
 import { PingleBox } from "./pingleBox";
 import { ChevronsLeftIcon } from "lucide-react";
+import { TopRightModule } from "./topRightModule";
 
 interface SurroundUIProps {
     children?: ReactNode;
@@ -45,11 +46,10 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
 
     const contentVariants = {
         closed: {
-            width: "100%",
+            width: `100%`,
             height: "100%",
             x: "0",
             y: "0",
-            borderRadius: "0px",
             transition: {
                 type: "spring",
                 stiffness: 300,
@@ -61,6 +61,24 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
             height: "calc(100% - 20px)",
             x: "-10px",
             y: "10px",
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+            },
+        },
+    };
+
+    const innerContentVariants = {
+        closed: {
+            borderRadius: "0px",
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+            },
+        },
+        open: {
             borderRadius: "30px",
             transition: {
                 type: "spring",
@@ -75,7 +93,8 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
     };
 
     return (
-        <div className="flex flex-row w-full h-screen overflow-hidden">
+        <div className="flex flex-row w-screen h-screen overflow-hidden">
+            <TopRightModule isSidebarOpen={isSidebarOpen} />
             <UserModal />
             <motion.div
                 initial="open"
@@ -297,7 +316,30 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                 variants={contentVariants}
                 className={`flex flex-col ml-auto overflow-hidden items-center justify-center`}
             >
-                {children}
+                <motion.div
+                    className={`
+                        w-full 
+                        h-full 
+                        overflow-hidden 
+                        before:absolute 
+                        before:inset-0 
+                        before:rounded-[30px] 
+                        ${
+                            isSidebarOpen
+                                ? "before:shadow-[inset_0_0_10px_0px_#00000080]"
+                                : ""
+                        } 
+                        before:transition-all 
+                        before:duration-300 
+                        before:ease-in-out 
+                        before:pointer-events-none 
+                        before:z-10`}
+                    initial="open"
+                    animate={isSidebarOpen ? "open" : "closed"}
+                    variants={innerContentVariants}
+                >
+                    {children}
+                </motion.div>
             </motion.div>
         </div>
     );

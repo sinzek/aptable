@@ -14,12 +14,12 @@ export const UserModal = () => {
     };
 
     useEffect(() => {
-        if (window.location.hash === "#user-info") {
+        if (window.location.hash === "#account") {
             setIsOpen(true);
         }
 
         const handleHashChange = () => {
-            setIsOpen(window.location.hash === "#user-info");
+            setIsOpen(window.location.hash === "#account");
         };
 
         const handleKeyDown = (event: KeyboardEvent) => {

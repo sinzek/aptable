@@ -10,7 +10,7 @@ import { Button, MotionButton } from "@/components/ui/button";
 import { UserModal } from "./userModal";
 import { UserCard } from "./userCard";
 import { PingleBox } from "./pingleBox";
-import { ChevronsLeftIcon } from "lucide-react";
+import { ChevronsLeftIcon, SquareArrowOutUpRight } from "lucide-react";
 import { TopRightModule } from "./topRightModule";
 
 interface SurroundUIProps {
@@ -48,7 +48,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
         closed: {
             width: `100%`,
             height: "100%",
-            x: "0",
+            x: "45px",
             y: "0",
             transition: {
                 type: "spring",
@@ -79,7 +79,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
             },
         },
         open: {
-            borderRadius: "30px",
+            borderRadius: "20px",
             transition: {
                 type: "spring",
                 stiffness: 300,
@@ -100,7 +100,9 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                 initial="open"
                 animate={isSidebarOpen ? "open" : "closed"}
                 variants={sidebarVariants}
-                className={`fixed top-0 left-0 h-screen w-[265px] bg-darkpurple-500 backdrop-blur-[10px] py-5 z-50 px-1`}
+                className={`fixed top-0 left-0 h-screen w-[265px] bg-darkpurple-600 backdrop-blur-[10px] py-5 z-50 px-1 ${
+                    isSidebarOpen ? "" : "sidebar-shadow"
+                } transition-shadow duration-300`}
             >
                 <div className="relative flex flex-col items-center justify-between h-full w-full z-[1]">
                     <div className="flex flex-col items-center w-full gap-8 px-2">
@@ -273,7 +275,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                                 />
                                 {isSidebarOpen && (
                                     <motion.span
-                                        className="text-start font-sora font-extrabold text-white/90"
+                                        className="text-start font-sora font-extrabold text-white/90 flex flex-row items-center gap-2"
                                         initial={{
                                             opacity: 0,
                                         }}
@@ -285,16 +287,19 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                                         transition={{ duration: 0.05 }}
                                     >
                                         Wiki
+                                        <SquareArrowOutUpRight
+                                            strokeWidth={2}
+                                            className="scale-105"
+                                        />
                                     </motion.span>
                                 )}
                             </MotionButton>
                         </nav>
                     </div>
                     <PingleBox isSidebarOpen={isSidebarOpen} />
-                    <Button
+                    <button
                         onClick={toggleSidebar}
-                        variant="ghost"
-                        className={`w-6 -right-[44px] absolute top-16 text-white rounded-l-none bg-darkpurple-500 hover:brightness-125 hover:bg-darkpurple-500 transition-all duration-100 -z-10 active:brightness-100 p-0`}
+                        className={`w-10 h-10 -right-[44px] absolute top-16 text-white rounded-r-full bg-darkpurple-600 hover:brightness-125 transition-all duration-100 -z-10 active:brightness-90 toggle-shadow [clip-path:inset(-30px_-30px_-30px_0px)] flex flex-row items-center justify-center`}
                         title={`${
                             isSidebarOpen ? "Shrink sidebar" : "Enlarge sidebar"
                         }`}
@@ -306,7 +311,7 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                             } transition-all duration-200 ease-in scale-125`}
                             opacity="0.5"
                         />
-                    </Button>
+                    </button>
                 </div>
             </motion.div>
 
@@ -323,12 +328,8 @@ const SurroundUI: React.FC<SurroundUIProps> = ({ children }) => {
                         overflow-hidden 
                         before:absolute 
                         before:inset-0 
-                        before:rounded-[30px] 
-                        ${
-                            isSidebarOpen
-                                ? "before:shadow-[inset_0_0_10px_0px_#00000080]"
-                                : ""
-                        } 
+                        before:rounded-[20px] 
+                        ${isSidebarOpen ? "before:special-shadow" : ""} 
                         before:transition-all 
                         before:duration-300 
                         before:ease-in-out 

@@ -101,7 +101,7 @@ const SearchModal = () => {
                         />
                     </motion.div>
                     <motion.div
-                        className="bg-purple-500/10 py-6 md:py-12 px-8 w-auto rounded-[50px] ui-shadow flex flex-col items-center gap-6 justify-center backdrop-blur-[10px]"
+                        className="bg-darkpurple-600/20 toggle-shadow py-6 md:py-12 px-8 w-auto rounded-[20px] flex flex-col items-center gap-6 justify-center backdrop-blur-[10px]"
                         initial={{ opacity: 0, y: 300 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{

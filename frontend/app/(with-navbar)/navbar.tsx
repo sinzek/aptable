@@ -31,7 +31,7 @@ const Navbar = () => {
             onAnimationComplete={() => setAnimationDone(true)}
         >
             <div
-                className={`sticky top-0 left-0 right-0 h-12 md:h-[4.5rem] bg-darkpurple-600/50 flex flex-row items-center justify-between px-20 ui-shadow transition-all duration-500 z-50 overflow-hidden ${
+                className={`sticky top-0 left-0 right-0 h-12 md:h-[4.5rem] bg-darkpurple-600/50 flex flex-row items-center justify-between px-20 toggle-shadow transition-all duration-500 z-50 overflow-hidden ${
                     animationDone
                         ? "backdrop-blur-[10px]"
                         : "backdrop-blur-none"

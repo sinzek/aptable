@@ -26,7 +26,7 @@ export default function BackgroundManager({
             case "/about/mission":
                 return "bg-gradient-to-b from-darkpurple-500 to-purple-500";
             default:
-                return "bg-darkpurple-500";
+                return "bg-darkpurple-600";
         }
     };
 

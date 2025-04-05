@@ -47,7 +47,19 @@ input:-webkit-autofill:focus {
 
 @layer components {
     .ui-shadow {
-        box-shadow: #00000080 0px 4px 8px 0px;
+        filter: drop-shadow(0px 0px 1px #af7ab370);
+    }
+
+    .special-shadow {
+        box-shadow: inset #af7ab370 0px 0px 3px 0px;
+    }
+
+    .sidebar-shadow {
+        box-shadow: #af7ab370 0px 0px 3px 0px;
+    }
+
+    .toggle-shadow {
+        box-shadow: #af7ab370 0px 0px 3px 0px;
     }
 
     .inner-shadow {
